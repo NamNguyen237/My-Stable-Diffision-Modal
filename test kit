@@ -1,3 +1,4 @@
+positive prompt:
 artist:ar-gand, azur lane, daisen \(azur lane\), daisen \(bunny priestess in prayer\) \(azur lane\),
 absurdres, highres, 1girl, animal ears, areola slip, black hair, black thighhighs,
 breasts, cleavage, covered navel, covering nipples, covering privates, fake animal ears,
@@ -5,8 +6,11 @@ highleg, highleg leotard, leotard, long hair, looking at viewer, official altern
 one breast out, playboy bunny, red leotard, sitting, solo, thighhighs, undersized breast cup,
 white background, masterpiece, best quality, good quality
 
+negative prompt:
 worst quality, low quality, displeasing, bad anatomy, chubby
 
+base: Noob-AL XL v-pred 1.0
+lora: AI styles dump AIO-noob-vpred1.0_v5
 cfg: 1.9
 sampler: euler
 steps: 150

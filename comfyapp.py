@@ -18,9 +18,6 @@ image = (  # build up a Modal Image to run ComfyUI, step by step
     .run_commands(
         "comfy --skip-prompt install --nvidia"
     )
-    #.run_commands(
-    #    "cp -r /root/comfy/ComfyUI/ /usr/ComfyUI"
-    #)
 )
 
 #image = (
@@ -34,13 +31,19 @@ image = (  # build up a Modal Image to run ComfyUI, step by step
     # )
     # Add .run_commands(...) calls for any other models you want to download
 #)
-#checkpoints and loras
+#checkpoints
 image = (
     image.run_commands(
         "wget -c \"https://civitai.com/api/download/models/1190596?type=Model&format=SafeTensor&size=full&fp=bf16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/checkpoints/NoobAI-XL V-Pred-1.0-Version.safetensors\""
     )
-
+    .run_commands(
+        "wget -c \"https://civitai.com/api/download/models/889818?type=Model&format=SafeTensor&size=pruned&fp=fp16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/checkpoints/Illustrious-XL v0.1.safetensors\""
+    )
+    .run_commands(
+        "wget -c \"https://civitai.com/api/download/models/1130140?type=Model&format=SafeTensor&size=pruned&fp=fp16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/checkpoints/RouWei 0.6.1 vpred.safetensors\""
+    )
 )
+#loras
 image = (
     image.run_commands(
         "wget -c \"https://civitai.com/api/download/models/1312224?type=Model&format=SafeTensor&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/AI styles dump AIO-noob-vpred1.0_v5.safetensors\""
@@ -76,6 +79,11 @@ image = (
     .run_commands(
         "git clone https://github.com/JuniorDevNam/luna_bloom.git /dataset"
     )
+)
+
+#(re)load workflows:
+image = (
+    image.add_local_dir("./WORKFLOWS/", remote_path="/root/comfy/ComfyUI/user/default/workflows")
 )
 app = modal.App(name="nam-dev-comfyui", image=image)
 

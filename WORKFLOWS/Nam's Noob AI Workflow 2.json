@@ -1,0 +1,316 @@
+{
+  "last_node_id": 8,
+  "last_link_id": 9,
+  "nodes": [
+    {
+      "id": 5,
+      "type": "ModelSamplingDiscrete",
+      "pos": [
+        329.2483825683594,
+        301.7917175292969
+      ],
+      "size": [
+        315,
+        82
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            6
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ModelSamplingDiscrete"
+      },
+      "widgets_values": [
+        "v_prediction",
+        true
+      ]
+    },
+    {
+      "id": 3,
+      "type": "Efficient Loader",
+      "pos": [
+        -18.490915298461914,
+        134.09996032714844
+      ],
+      "size": [
+        400,
+        702
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "lora_stack",
+          "type": "LORA_STACK",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "cnet_stack",
+          "type": "CONTROL_NET_STACK",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            1
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "CONDITIONING+",
+          "type": "CONDITIONING",
+          "links": [
+            2
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "CONDITIONING-",
+          "type": "CONDITIONING",
+          "links": [
+            3
+          ],
+          "slot_index": 2
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            4
+          ],
+          "slot_index": 3
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            5
+          ],
+          "slot_index": 4
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": null
+        },
+        {
+          "name": "DEPENDENCIES",
+          "type": "DEPENDENCIES",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Efficient Loader"
+      },
+      "widgets_values": [
+        "NoobAI-XL V-Pred-1.0-Version.safetensors",
+        "Baked VAE",
+        -2,
+        "AI styles dump AIO-noob-vpred1.0_v5.safetensors",
+        1,
+        1,
+        "firedotinc,\nartist:ar-gand, azur lane, daisen \\(azur lane\\), daisen \\(bunny priestess in prayer\\) \\(azur lane\\),\nabsurdres, highres, 1girl, animal ears, areola slip, black hair, black thighhighs,\nbreasts, cleavage, covered navel, covering nipples, covering privates, fake animal ears,\nhighleg, highleg leotard, leotard, long hair, looking at viewer, official alternate costume,\none breast out, playboy bunny, red leotard, sitting, solo, thighhighs, undersized breast cup,\nwhite background, masterpiece, best quality, good quality",
+        "worst quality, low quality, displeasing, text, watermark, bad anatomy, chubby",
+        "none",
+        "comfy",
+        832,
+        1216,
+        1
+      ],
+      "color": "#223333",
+      "bgcolor": "#335555",
+      "shape": 1
+    },
+    {
+      "id": 4,
+      "type": "KSampler (Efficient)",
+      "pos": [
+        636.8186645507812,
+        147.46360778808594
+      ],
+      "size": [
+        325,
+        562
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 6
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 2
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 3
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 4
+        },
+        {
+          "name": "optional_vae",
+          "type": "VAE",
+          "link": 5,
+          "shape": 7
+        },
+        {
+          "name": "script",
+          "type": "SCRIPT",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": null
+        },
+        {
+          "name": "CONDITIONING+",
+          "type": "CONDITIONING",
+          "links": null
+        },
+        {
+          "name": "CONDITIONING-",
+          "type": "CONDITIONING",
+          "links": null
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": null
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": null
+        },
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 5
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler (Efficient)"
+      },
+      "widgets_values": [
+        299428756827712,
+        null,
+        150,
+        1.9000000000000001,
+        "euler",
+        "normal",
+        1,
+        "auto",
+        "true"
+      ],
+      "color": "#443322",
+      "bgcolor": "#665533",
+      "shape": 1
+    }
+  ],
+  "links": [
+    [
+      1,
+      3,
+      0,
+      5,
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      3,
+      1,
+      4,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      3,
+      3,
+      2,
+      4,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      4,
+      3,
+      3,
+      4,
+      3,
+      "LATENT"
+    ],
+    [
+      5,
+      3,
+      4,
+      4,
+      4,
+      "VAE"
+    ],
+    [
+      6,
+      5,
+      0,
+      4,
+      0,
+      "MODEL"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.9090909090909091,
+      "offset": [
+        166.01989370680155,
+        45.72473691745748
+      ]
+    },
+    "node_versions": {
+      "comfy-core": "0.3.12",
+      "efficiency-nodes-comfyui": "1.0.5"
+    }
+  },
+  "version": 0.4
+}
