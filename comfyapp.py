@@ -77,6 +77,12 @@ image = (
         remote_path="/root/database/1_aria"               
     )   
 )
+#load local loras
+image = (
+    image.add_local_dir("./LORAS/", 
+        remote_path="/root/comfy/ComfyUI/models/loras"               
+    )   
+)
 
 #(re)load workflows:
 #image = (
