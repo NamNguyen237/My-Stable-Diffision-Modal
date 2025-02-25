@@ -10,9 +10,13 @@ result = result.replace("commentary_request ","")
 result = result.replace("commentary ","")
 
 result = result.replace("translated ","")
-speech = input("Delete Speech bubbles? (y/n): ")
-if speech == "y":
-    result.replace("speech bubble ","")
+result = result.replace("speech bubble ","")
+
 result = result.replace(" ",", ").replace("_"," ").replace("(","\(").replace(")","\)")
+
+result = result+", masterpiece, best quality, good quality"
 print(" ")
-print(result+", masterpiece, best quality, good quality")
+print(result)
+import pyperclip
+pyperclip.copy(result)
+print("Dữ liệu đã được sao chép vào bộ nhớ tạm.")
