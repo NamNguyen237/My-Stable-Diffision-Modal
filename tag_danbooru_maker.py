@@ -4,15 +4,18 @@ result = result.replace("highres ","")
 result = result.replace("watermark ","")
 result = result.replace("artist_name ","")
 result = result.replace("md5_mismatch ","")
+result = result.replace("animated ","")
 
 result = result.replace("translation_request ","")
 result = result.replace("translated ","")
 
 result = result.replace("chinese_commentary ","")
 result = result.replace("english_commentary ","")
+result = result.replace("symbol-only_commentary ","")
 result = result.replace("commentary_request ","")
 result = result.replace("commentary ","")
 
+result = result.replace("korean ","")
 
 result = result.replace("paid_reward_available ","")
 

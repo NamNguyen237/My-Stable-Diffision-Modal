@@ -70,13 +70,7 @@ image = (
     )
     
 )
-image = (
-    image.run_commands("mkdir /database")
-    .run_commands("mkdir /database/1_aria")
-    .add_local_dir("./DATASET/luna_bloom/database/1_aria", 
-        remote_path="/root/database/1_aria"               
-    )   
-)
+
 #load local loras
 image = (
     image.add_local_dir("./LORAS/", 
@@ -85,9 +79,9 @@ image = (
 )
 
 #(re)load workflows:
-#image = (
-#    image.add_local_dir("./WORKFLOWS/", remote_path="/root/comfy/ComfyUI/user/default/workflows")
-#)
+image = (
+    image.add_local_dir("./WORKFLOWS/", remote_path="/root/comfy/ComfyUI/user/default/workflows")
+)
 app = modal.App(name="nam-dev-comfyui", image=image)
 
 @app.function(
