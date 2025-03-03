@@ -1,0 +1,324 @@
+{
+  "last_node_id": 8,
+  "last_link_id": 9,
+  "nodes": [
+    {
+      "id": 5,
+      "type": "ModelSamplingDiscrete",
+      "pos": [
+        329.2483825683594,
+        301.7917175292969
+      ],
+      "size": [
+        315,
+        82
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            6
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.18",
+        "Node name for S&R": "ModelSamplingDiscrete"
+      },
+      "widgets_values": [
+        "v_prediction",
+        true
+      ]
+    },
+    {
+      "id": 4,
+      "type": "KSampler (Efficient)",
+      "pos": [
+        636.8186645507812,
+        147.46360778808594
+      ],
+      "size": [
+        325,
+        562
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 6
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 2
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 3
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 4
+        },
+        {
+          "name": "optional_vae",
+          "type": "VAE",
+          "shape": 7,
+          "link": 5
+        },
+        {
+          "name": "script",
+          "type": "SCRIPT",
+          "shape": 7,
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": null
+        },
+        {
+          "name": "CONDITIONING+",
+          "type": "CONDITIONING",
+          "links": null
+        },
+        {
+          "name": "CONDITIONING-",
+          "type": "CONDITIONING",
+          "links": null
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": null
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": null
+        },
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 5
+        }
+      ],
+      "properties": {
+        "cnr_id": "efficiency-nodes-comfyui",
+        "ver": "1.0.5",
+        "Node name for S&R": "KSampler (Efficient)"
+      },
+      "widgets_values": [
+        558668729210331,
+        null,
+        50,
+        4,
+        "euler",
+        "normal",
+        0.9,
+        "auto",
+        "true"
+      ],
+      "color": "#443322",
+      "bgcolor": "#665533",
+      "shape": 1
+    },
+    {
+      "id": 3,
+      "type": "Efficient Loader",
+      "pos": [
+        -64.17088317871094,
+        138.90835571289062
+      ],
+      "size": [
+        400,
+        1278
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "lora_stack",
+          "type": "LORA_STACK",
+          "shape": 7,
+          "link": null
+        },
+        {
+          "name": "cnet_stack",
+          "type": "CONTROL_NET_STACK",
+          "shape": 7,
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            1
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "CONDITIONING+",
+          "type": "CONDITIONING",
+          "links": [
+            2
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "CONDITIONING-",
+          "type": "CONDITIONING",
+          "links": [
+            3
+          ],
+          "slot_index": 2
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            4
+          ],
+          "slot_index": 3
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            5
+          ],
+          "slot_index": 4
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": null
+        },
+        {
+          "name": "DEPENDENCIES",
+          "type": "DEPENDENCIES",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "efficiency-nodes-comfyui",
+        "ver": "1.0.5",
+        "Node name for S&R": "Efficient Loader"
+      },
+      "widgets_values": [
+        "NoobAI-XL-V-Pred-1.0-Version.safetensors",
+        "Baked VAE",
+        -2,
+        "kazutake_hazano.safetensors",
+        1,
+        1,
+        "otonari no tenshi-sama ni itsu no mani ka dame ningen ni sarete ita ken, shiina mahiru \\(otonari no tenshi-sama\\), 1girl, back bow, blue bow, blue ribbon, blush, bow, braid, brown eyes, brown hair, capelet, closed mouth, dot nose, dress, eyelashes, facing viewer, grey background, hair between eyes, hair bow, hair flower, hair ornament, hands up, holding, holding sign, holly hair ornament, japanese clothes, kanzashi, kimono, leaning to the side, leg up, long bangs, long hair, long sleeves, obi, parted lips, pink kimono, red ribbon, ribbon, sash, sidelocks, sign, sitting, smile, sparkle, straight-on, twin braids, v arms, white bow, lightning_bolt, electricity \"The sign has the lightning bolt symbol\"",
+        "worst quality, low quality, displeasing, text, watermark, bad anatomy, chubby",
+        "none",
+        "comfy",
+        832,
+        1216,
+        1
+      ],
+      "color": "#223333",
+      "bgcolor": "#335555",
+      "shape": 1
+    }
+  ],
+  "links": [
+    [
+      1,
+      3,
+      0,
+      5,
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      3,
+      1,
+      4,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      3,
+      3,
+      2,
+      4,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      4,
+      3,
+      3,
+      4,
+      3,
+      "LATENT"
+    ],
+    [
+      5,
+      3,
+      4,
+      4,
+      4,
+      "VAE"
+    ],
+    [
+      6,
+      5,
+      0,
+      4,
+      0,
+      "MODEL"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 1.2472550675675698,
+      "offset": [
+        295.2506951634751,
+        -11.885713264304094
+      ]
+    },
+    "node_versions": {
+      "comfy-core": "0.3.13",
+      "efficiency-nodes-comfyui": "1.0.5"
+    }
+  },
+  "version": 0.4
+}

@@ -12,15 +12,12 @@ image = (  # build up a Modal Image to run ComfyUI, step by step
     .apt_install("libgl1-mesa-glx")  # needed to run ComfyUI
     .apt_install("libglib2.0-0")  # needed to run ComfyUI
     .apt_install("wget")
-    .apt_install("npm")
+    .run_commands("apt update & apt upgrade -y & apt autoremove -y")
     .pip_install_from_requirements(
         "requirements.txt"
     )
     .run_commands(
         "comfy --skip-prompt install --nvidia"
-    )
-    .run_commands(
-        "npm install web-terminal -g"
     )
 )
 
@@ -36,6 +33,11 @@ image = (
         "wget -c \"https://civitai.com/api/download/models/1130140?type=Model&format=SafeTensor&size=pruned&fp=fp16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/checkpoints/RouWei-0.6.1-vpred.safetensors\""
     )
 )
+image = (
+    image.run_commands(
+        "wget -c \"https://civitai.com/api/download/models/1140829?type=Model&format=SafeTensor&size=full&fp=bf16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/checkpoints//NoobAI-XL-V-Pred-0.75S-Version.safetensors\""
+    )
+)
 #loras
 image = (
     image.run_commands(
@@ -48,7 +50,19 @@ image = (
         "wget -c \"https://civitai.com/api/download/models/1265180?type=Model&format=SafeTensor&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/Pixel Art LoRA noob vpred 1.0 v2.safetensors\""
     )
 )
-
+#image = (
+#    image.run_commands(
+#        "wget -c \"https://civitai.com/api/download/models/1360303?type=Model&format=SafeTensor&size=pruned&fp=fp16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"
+#    )
+#)
+image = (
+    image.run_commands(
+        "wget -c \"https://civitai.com/api/download/models/1187614?type=Model&format=SafeTensor&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/Miside(米塔)|NoobAI-XL eps v1.1.safetensors\"")
+    .run_commands(
+        "wget -c \"https://civitai.com/api/download/models/1167067?type=Model&format=SafeTensor&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/Miside(米塔)|NoobAI-XL v-pred 0.75s.safetensors\"")
+    .run_commands(
+        "wget -c \"https://civitai.com/api/download/models/1173678?type=Model&format=SafeTensor&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/Miside(米塔)|NoobAI-XL v-pred 0.75s new.safetensors\"")
+)
 image = (
     image.run_commands(  # download a custom node
         "comfy node install image-resize-comfyui"
@@ -79,9 +93,9 @@ image = (
 )
 
 #(re)load workflows:
-image = (
-    image.add_local_dir("./WORKFLOWS/", remote_path="/root/comfy/ComfyUI/user/default/workflows")
-)
+#image = (
+#    image.add_local_dir("./WORKFLOWS/", remote_path="/root/comfy/ComfyUI/user/default/workflows")
+#)
 app = modal.App(name="nam-dev-comfyui", image=image)
 
 @app.function(
@@ -92,6 +106,6 @@ app = modal.App(name="nam-dev-comfyui", image=image)
     gpu="A10G",
 )
 @modal.web_server(8000, startup_timeout=60)
-def ui():
+def webui():
     subprocess.Popen("comfy launch -- --listen 0.0.0.0 --port 8000", shell=True)
 
