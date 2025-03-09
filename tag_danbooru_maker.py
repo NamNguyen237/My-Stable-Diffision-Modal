@@ -1,10 +1,15 @@
 string =input('enter danbooru tags: ')
+result = string.replace("original ","")
+result = string.replace("corrupted_twitter_file ","")
 result = string.replace("absurdres ","")
 result = result.replace("highres ","")
+result = result.replace("lowres ","")
 result = result.replace("watermark ","")
+result = result.replace("bad_source ","")
 
 result = result.replace("artist_name ","")
 result = result.replace("twitter_username ","")
+result = result.replace("signature ","")
 
 result = result.replace("md5_mismatch ","")
 result = result.replace("animated ","")
@@ -27,6 +32,7 @@ result = result.replace("commission ","")
 
 result = result.replace("chinese_commentary ","")
 result = result.replace("english_commentary ","")
+result = result.replace("korean_commentary ","")
 result = result.replace("symbol-only_commentary ","")
 result = result.replace("commentary_request ","")
 result = result.replace("commentary ","")
