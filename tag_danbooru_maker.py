@@ -5,10 +5,18 @@ result = string.replace("absurdres ","")
 result = result.replace("highres ","")
 result = result.replace("lowres ","")
 result = result.replace("watermark ","")
+result = result.replace("variant_set ","")
+result = result.replace("alt_text ","")
+
+result = result.replace("comiket_104 ","")
+
 result = result.replace("bad_source ","")
+result = result.replace("bad_id ","")
+result = result.replace("bad_pixiv_id ","")
 
 result = result.replace("artist_name ","")
 result = result.replace("twitter_username ","")
+result = result.replace("twitter_username","")
 result = result.replace("signature ","")
 
 result = result.replace("md5_mismatch ","")
@@ -29,7 +37,9 @@ result = result.replace("pixiv_commission ","")
 result = result.replace("commission ","")
 
 
-
+result = result.replace("mixed-language_commentary ","")
+result = result.replace("partial_commentary ","")
+result = result.replace("hashtag-only_commentary ","")
 result = result.replace("chinese_commentary ","")
 result = result.replace("english_commentary ","")
 result = result.replace("korean_commentary ","")
