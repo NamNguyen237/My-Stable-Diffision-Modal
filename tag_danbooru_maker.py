@@ -7,6 +7,7 @@ result = result.replace("lowres ","")
 result = result.replace("watermark ","")
 result = result.replace("variant_set ","")
 result = result.replace("alt_text ","")
+result = result.replace("revision ","")
 
 result = result.replace("comiket_104 ","")
 
@@ -24,8 +25,12 @@ result = result.replace("animated ","")
 result = result.replace("patreon_logo ","")
 result = result.replace("patreon_username ","")
 result = result.replace("artist_name ","")
+
 result = result.replace("translation_request ","")
+result = result.replace("check_translation ","")
+result = result.replace("partially_translated ","")
 result = result.replace("translated ","")
+
 result = result.replace("novel_illustration ","")
 result = result.replace("official_art ","")
 result = result.replace("cover_image ","")
