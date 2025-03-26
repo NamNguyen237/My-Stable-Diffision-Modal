@@ -10,6 +10,7 @@ result = result.replace("alt_text ","")
 result = result.replace("revision ","")
 
 result = result.replace("comiket_104 ","")
+result = result.replace("comiket_105 ","")
 
 result = result.replace("bad_source ","")
 result = result.replace("bad_id ","")
@@ -41,11 +42,12 @@ result = result.replace("web_address ","")
 result = result.replace("pixiv_commission ","")
 result = result.replace("commission ","")
 
-
+result = result.replace("bilingual_commentary ","")
 result = result.replace("mixed-language_commentary ","")
 result = result.replace("partial_commentary ","")
 result = result.replace("hashtag-only_commentary ","")
 result = result.replace("chinese_commentary ","")
+result = result.replace("dated_commentary ","")
 result = result.replace("english_commentary ","")
 result = result.replace("korean_commentary ","")
 result = result.replace("symbol-only_commentary ","")
