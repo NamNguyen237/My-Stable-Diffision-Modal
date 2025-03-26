@@ -59,7 +59,7 @@ app = modal.App(
 
         .run_commands("rclone copy --multi-thread-streams=16 --update \"GDrive16T:/Loras/yuki_asayuki101\" \"/root/content/drive/MyDrive/Loras/yuki_asayuki101\" --ignore-existing --checksum --transfers 16 -v --stats 10s")
 
-        #rclone copy --multi-thread-streams=16 --update "/root/content/MyDrive/Loras/yuki_asayuki101/output" "GDrive16T:/Loras/yuki_asayuki101/output" --ignore-existing --checksum --transfers 16 -v --stats 10s
+        #rclone copy --multi-thread-streams=16 --update "/root/content/drive/MyDrive/Loras/yuki_asayuki101/output" "GDrive16T:/Loras/yuki_asayuki101/output" --ignore-existing --checksum --transfers 16 -v --stats 10s
         .add_local_dir("./notebooks/", 
         remote_path="/root/notebooks/")
     )
