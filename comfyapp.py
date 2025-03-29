@@ -82,7 +82,9 @@ image = (
     .run_commands(
         "comfy node install https://github.com/pythongosssss/ComfyUI-WD14-Tagger.git"
     )
-    
+    .run_commands(
+        "comfy node install https://github.com/alexopus/ComfyUI-Image-Saver.git"
+    )
 )
 
 #load local loras
