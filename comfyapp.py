@@ -103,7 +103,7 @@ app = modal.App(name="nam-dev-comfyui", image=image)
 @app.function(
     allow_concurrent_inputs=10,
     concurrency_limit=1,
-    container_idle_timeout=1000,
+    container_idle_timeout=1200,
     timeout=18000,
     gpu="A10G",
 )
