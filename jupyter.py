@@ -57,7 +57,7 @@ app = modal.App(
         
         #.run_commands("rclone copy --multi-thread-streams=16 --update "$vi_tri_cu_the_file_can_copy" "$dich_den_cua_file_can_copy" --ignore-existing --checksum --transfers 16 -v --stats 10s")
 
-        .run_commands("rclone copy --multi-thread-streams=16 --update \"GDrive16T:/Loras/kirineshiro\" \"/root/content/drive/MyDrive/Loras/kirineshiro\" --ignore-existing --checksum --transfers 16 -v --stats 10s")
+        #.run_commands("rclone copy --multi-thread-streams=16 --update \"GDrive16T:/Loras/kirineshiro\" \"/root/content/drive/MyDrive/Loras/kirineshiro\" --ignore-existing --checksum --transfers 16 -v --stats 10s")
 
         #rclone copy --multi-thread-streams=16 --update "/root/content/drive/MyDrive/Loras/himura_kiseki/output" "GDrive16T:/Loras/himura_kiseki/output" --ignore-existing --checksum --transfers 16 -v --stats 10s
         .add_local_dir("./notebooks/", 
