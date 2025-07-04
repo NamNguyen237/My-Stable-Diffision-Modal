@@ -8,6 +8,7 @@ https://github.com/grpc/proposal/blob/master/A14-channelz.md
 The canonical version of this proto can be found at
 https://github.com/grpc/grpc-proto/blob/master/grpc/channelz/v1/channelz.proto
 """
+
 import builtins
 import collections.abc
 import google.protobuf.any_pb2
@@ -28,7 +29,7 @@ else:
 
 DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
-@typing_extensions.final
+@typing.final
 class Channel(google.protobuf.message.Message):
     """Channel is a logical grouping of channels, subchannels, and sockets."""
 
@@ -42,17 +43,20 @@ class Channel(google.protobuf.message.Message):
     @property
     def ref(self) -> global___ChannelRef:
         """The identifier for this channel. This should be set."""
+
     @property
     def data(self) -> global___ChannelData:
         """Data specific to this channel.
         At most one of 'channel_ref+subchannel_ref' and 'socket' is set.
         """
+
     @property
     def channel_ref(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___ChannelRef]:
         """There are no ordering guarantees on the order of channel refs.
         There may not be cycles in the ref graph.
         A channel ref may be present in more than one channel or subchannel.
         """
+
     @property
     def subchannel_ref(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___SubchannelRef]:
         """At most one of 'channel_ref+subchannel_ref' and 'socket' is set.
@@ -60,9 +64,11 @@ class Channel(google.protobuf.message.Message):
         There may not be cycles in the ref graph.
         A sub channel ref may be present in more than one channel or subchannel.
         """
+
     @property
     def socket_ref(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___SocketRef]:
         """There are no ordering guarantees on the order of sockets."""
+
     def __init__(
         self,
         *,
@@ -72,12 +78,12 @@ class Channel(google.protobuf.message.Message):
         subchannel_ref: collections.abc.Iterable[global___SubchannelRef] | None = ...,
         socket_ref: collections.abc.Iterable[global___SocketRef] | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["data", b"data", "ref", b"ref"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["channel_ref", b"channel_ref", "data", b"data", "ref", b"ref", "socket_ref", b"socket_ref", "subchannel_ref", b"subchannel_ref"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["data", b"data", "ref", b"ref"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["channel_ref", b"channel_ref", "data", b"data", "ref", b"ref", "socket_ref", b"socket_ref", "subchannel_ref", b"subchannel_ref"]) -> None: ...
 
 global___Channel = Channel
 
-@typing_extensions.final
+@typing.final
 class Subchannel(google.protobuf.message.Message):
     """Subchannel is a logical grouping of channels, subchannels, and sockets.
     A subchannel is load balanced over by it's ancestor
@@ -93,17 +99,20 @@ class Subchannel(google.protobuf.message.Message):
     @property
     def ref(self) -> global___SubchannelRef:
         """The identifier for this channel."""
+
     @property
     def data(self) -> global___ChannelData:
         """Data specific to this channel.
         At most one of 'channel_ref+subchannel_ref' and 'socket' is set.
         """
+
     @property
     def channel_ref(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___ChannelRef]:
         """There are no ordering guarantees on the order of channel refs.
         There may not be cycles in the ref graph.
         A channel ref may be present in more than one channel or subchannel.
         """
+
     @property
     def subchannel_ref(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___SubchannelRef]:
         """At most one of 'channel_ref+subchannel_ref' and 'socket' is set.
@@ -111,9 +120,11 @@ class Subchannel(google.protobuf.message.Message):
         There may not be cycles in the ref graph.
         A sub channel ref may be present in more than one channel or subchannel.
         """
+
     @property
     def socket_ref(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___SocketRef]:
         """There are no ordering guarantees on the order of sockets."""
+
     def __init__(
         self,
         *,
@@ -123,12 +134,12 @@ class Subchannel(google.protobuf.message.Message):
         subchannel_ref: collections.abc.Iterable[global___SubchannelRef] | None = ...,
         socket_ref: collections.abc.Iterable[global___SocketRef] | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["data", b"data", "ref", b"ref"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["channel_ref", b"channel_ref", "data", b"data", "ref", b"ref", "socket_ref", b"socket_ref", "subchannel_ref", b"subchannel_ref"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["data", b"data", "ref", b"ref"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["channel_ref", b"channel_ref", "data", b"data", "ref", b"ref", "socket_ref", b"socket_ref", "subchannel_ref", b"subchannel_ref"]) -> None: ...
 
 global___Subchannel = Subchannel
 
-@typing_extensions.final
+@typing.final
 class ChannelConnectivityState(google.protobuf.message.Message):
     """These come from the specified states in this document:
     https://github.com/grpc/grpc/blob/master/doc/connectivity-semantics-and-api.md
@@ -140,7 +151,7 @@ class ChannelConnectivityState(google.protobuf.message.Message):
         ValueType = typing.NewType("ValueType", builtins.int)
         V: typing_extensions.TypeAlias = ValueType
 
-    class _StateEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[ChannelConnectivityState._State.ValueType], builtins.type):  # noqa: F821
+    class _StateEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[ChannelConnectivityState._State.ValueType], builtins.type):
         DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
         UNKNOWN: ChannelConnectivityState._State.ValueType  # 0
         IDLE: ChannelConnectivityState._State.ValueType  # 1
@@ -164,11 +175,11 @@ class ChannelConnectivityState(google.protobuf.message.Message):
         *,
         state: global___ChannelConnectivityState.State.ValueType = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["state", b"state"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["state", b"state"]) -> None: ...
 
 global___ChannelConnectivityState = ChannelConnectivityState
 
-@typing_extensions.final
+@typing.final
 class ChannelData(google.protobuf.message.Message):
     """Channel data is data related to a specific Channel or Subchannel."""
 
@@ -181,16 +192,8 @@ class ChannelData(google.protobuf.message.Message):
     CALLS_SUCCEEDED_FIELD_NUMBER: builtins.int
     CALLS_FAILED_FIELD_NUMBER: builtins.int
     LAST_CALL_STARTED_TIMESTAMP_FIELD_NUMBER: builtins.int
-    @property
-    def state(self) -> global___ChannelConnectivityState:
-        """The connectivity state of the channel or subchannel.  Implementations
-        should always set this.
-        """
     target: builtins.str
     """The target this channel originally tried to connect to.  May be absent"""
-    @property
-    def trace(self) -> global___ChannelTrace:
-        """A trace of recent events on the channel.  May be absent."""
     calls_started: builtins.int
     """The number of calls started on the channel"""
     calls_succeeded: builtins.int
@@ -198,8 +201,19 @@ class ChannelData(google.protobuf.message.Message):
     calls_failed: builtins.int
     """The number of calls that have completed with a non-OK status"""
     @property
+    def state(self) -> global___ChannelConnectivityState:
+        """The connectivity state of the channel or subchannel.  Implementations
+        should always set this.
+        """
+
+    @property
+    def trace(self) -> global___ChannelTrace:
+        """A trace of recent events on the channel.  May be absent."""
+
+    @property
     def last_call_started_timestamp(self) -> google.protobuf.timestamp_pb2.Timestamp:
         """The last time a call was started on the channel."""
+
     def __init__(
         self,
         *,
@@ -211,12 +225,12 @@ class ChannelData(google.protobuf.message.Message):
         calls_failed: builtins.int = ...,
         last_call_started_timestamp: google.protobuf.timestamp_pb2.Timestamp | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["last_call_started_timestamp", b"last_call_started_timestamp", "state", b"state", "trace", b"trace"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["calls_failed", b"calls_failed", "calls_started", b"calls_started", "calls_succeeded", b"calls_succeeded", "last_call_started_timestamp", b"last_call_started_timestamp", "state", b"state", "target", b"target", "trace", b"trace"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["last_call_started_timestamp", b"last_call_started_timestamp", "state", b"state", "trace", b"trace"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["calls_failed", b"calls_failed", "calls_started", b"calls_started", "calls_succeeded", b"calls_succeeded", "last_call_started_timestamp", b"last_call_started_timestamp", "state", b"state", "target", b"target", "trace", b"trace"]) -> None: ...
 
 global___ChannelData = ChannelData
 
-@typing_extensions.final
+@typing.final
 class ChannelTraceEvent(google.protobuf.message.Message):
     """A trace event is an interesting thing that happened to a channel or
     subchannel, such as creation, address resolution, subchannel creation, etc.
@@ -228,7 +242,7 @@ class ChannelTraceEvent(google.protobuf.message.Message):
         ValueType = typing.NewType("ValueType", builtins.int)
         V: typing_extensions.TypeAlias = ValueType
 
-    class _SeverityEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[ChannelTraceEvent._Severity.ValueType], builtins.type):  # noqa: F821
+    class _SeverityEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[ChannelTraceEvent._Severity.ValueType], builtins.type):
         DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
         CT_UNKNOWN: ChannelTraceEvent._Severity.ValueType  # 0
         CT_INFO: ChannelTraceEvent._Severity.ValueType  # 1
@@ -255,6 +269,7 @@ class ChannelTraceEvent(google.protobuf.message.Message):
     @property
     def timestamp(self) -> google.protobuf.timestamp_pb2.Timestamp:
         """When this event occurred."""
+
     @property
     def channel_ref(self) -> global___ChannelRef: ...
     @property
@@ -268,13 +283,13 @@ class ChannelTraceEvent(google.protobuf.message.Message):
         channel_ref: global___ChannelRef | None = ...,
         subchannel_ref: global___SubchannelRef | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["channel_ref", b"channel_ref", "child_ref", b"child_ref", "subchannel_ref", b"subchannel_ref", "timestamp", b"timestamp"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["channel_ref", b"channel_ref", "child_ref", b"child_ref", "description", b"description", "severity", b"severity", "subchannel_ref", b"subchannel_ref", "timestamp", b"timestamp"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal["child_ref", b"child_ref"]) -> typing_extensions.Literal["channel_ref", "subchannel_ref"] | None: ...
+    def HasField(self, field_name: typing.Literal["channel_ref", b"channel_ref", "child_ref", b"child_ref", "subchannel_ref", b"subchannel_ref", "timestamp", b"timestamp"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["channel_ref", b"channel_ref", "child_ref", b"child_ref", "description", b"description", "severity", b"severity", "subchannel_ref", b"subchannel_ref", "timestamp", b"timestamp"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing.Literal["child_ref", b"child_ref"]) -> typing.Literal["channel_ref", "subchannel_ref"] | None: ...
 
 global___ChannelTraceEvent = ChannelTraceEvent
 
-@typing_extensions.final
+@typing.final
 class ChannelTrace(google.protobuf.message.Message):
     """ChannelTrace represents the recent events that have occurred on the channel."""
 
@@ -291,9 +306,11 @@ class ChannelTrace(google.protobuf.message.Message):
     @property
     def creation_timestamp(self) -> google.protobuf.timestamp_pb2.Timestamp:
         """Time that this channel was created."""
+
     @property
     def events(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___ChannelTraceEvent]:
         """List of events that have occurred on this channel."""
+
     def __init__(
         self,
         *,
@@ -301,12 +318,12 @@ class ChannelTrace(google.protobuf.message.Message):
         creation_timestamp: google.protobuf.timestamp_pb2.Timestamp | None = ...,
         events: collections.abc.Iterable[global___ChannelTraceEvent] | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["creation_timestamp", b"creation_timestamp"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["creation_timestamp", b"creation_timestamp", "events", b"events", "num_events_logged", b"num_events_logged"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["creation_timestamp", b"creation_timestamp"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["creation_timestamp", b"creation_timestamp", "events", b"events", "num_events_logged", b"num_events_logged"]) -> None: ...
 
 global___ChannelTrace = ChannelTrace
 
-@typing_extensions.final
+@typing.final
 class ChannelRef(google.protobuf.message.Message):
     """ChannelRef is a reference to a Channel."""
 
@@ -324,11 +341,11 @@ class ChannelRef(google.protobuf.message.Message):
         channel_id: builtins.int = ...,
         name: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["channel_id", b"channel_id", "name", b"name"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["channel_id", b"channel_id", "name", b"name"]) -> None: ...
 
 global___ChannelRef = ChannelRef
 
-@typing_extensions.final
+@typing.final
 class SubchannelRef(google.protobuf.message.Message):
     """SubchannelRef is a reference to a Subchannel."""
 
@@ -346,11 +363,11 @@ class SubchannelRef(google.protobuf.message.Message):
         subchannel_id: builtins.int = ...,
         name: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["name", b"name", "subchannel_id", b"subchannel_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["name", b"name", "subchannel_id", b"subchannel_id"]) -> None: ...
 
 global___SubchannelRef = SubchannelRef
 
-@typing_extensions.final
+@typing.final
 class SocketRef(google.protobuf.message.Message):
     """SocketRef is a reference to a Socket."""
 
@@ -368,11 +385,11 @@ class SocketRef(google.protobuf.message.Message):
         socket_id: builtins.int = ...,
         name: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["name", b"name", "socket_id", b"socket_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["name", b"name", "socket_id", b"socket_id"]) -> None: ...
 
 global___SocketRef = SocketRef
 
-@typing_extensions.final
+@typing.final
 class ServerRef(google.protobuf.message.Message):
     """ServerRef is a reference to a Server."""
 
@@ -390,11 +407,11 @@ class ServerRef(google.protobuf.message.Message):
         server_id: builtins.int = ...,
         name: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["name", b"name", "server_id", b"server_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["name", b"name", "server_id", b"server_id"]) -> None: ...
 
 global___ServerRef = ServerRef
 
-@typing_extensions.final
+@typing.final
 class Server(google.protobuf.message.Message):
     """Server represents a single server.  There may be multiple servers in a single
     program.
@@ -408,14 +425,17 @@ class Server(google.protobuf.message.Message):
     @property
     def ref(self) -> global___ServerRef:
         """The identifier for a Server.  This should be set."""
+
     @property
     def data(self) -> global___ServerData:
         """The associated data of the Server."""
+
     @property
     def listen_socket(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___SocketRef]:
         """The sockets that the server is listening on.  There are no ordering
         guarantees.  This may be absent.
         """
+
     def __init__(
         self,
         *,
@@ -423,12 +443,12 @@ class Server(google.protobuf.message.Message):
         data: global___ServerData | None = ...,
         listen_socket: collections.abc.Iterable[global___SocketRef] | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["data", b"data", "ref", b"ref"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["data", b"data", "listen_socket", b"listen_socket", "ref", b"ref"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["data", b"data", "ref", b"ref"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["data", b"data", "listen_socket", b"listen_socket", "ref", b"ref"]) -> None: ...
 
 global___Server = Server
 
-@typing_extensions.final
+@typing.final
 class ServerData(google.protobuf.message.Message):
     """ServerData is data for a specific Server."""
 
@@ -439,9 +459,6 @@ class ServerData(google.protobuf.message.Message):
     CALLS_SUCCEEDED_FIELD_NUMBER: builtins.int
     CALLS_FAILED_FIELD_NUMBER: builtins.int
     LAST_CALL_STARTED_TIMESTAMP_FIELD_NUMBER: builtins.int
-    @property
-    def trace(self) -> global___ChannelTrace:
-        """A trace of recent events on the server.  May be absent."""
     calls_started: builtins.int
     """The number of incoming calls started on the server"""
     calls_succeeded: builtins.int
@@ -449,8 +466,13 @@ class ServerData(google.protobuf.message.Message):
     calls_failed: builtins.int
     """The number of incoming calls that have a completed with a non-OK status"""
     @property
+    def trace(self) -> global___ChannelTrace:
+        """A trace of recent events on the server.  May be absent."""
+
+    @property
     def last_call_started_timestamp(self) -> google.protobuf.timestamp_pb2.Timestamp:
         """The last time a call was started on the server."""
+
     def __init__(
         self,
         *,
@@ -460,12 +482,12 @@ class ServerData(google.protobuf.message.Message):
         calls_failed: builtins.int = ...,
         last_call_started_timestamp: google.protobuf.timestamp_pb2.Timestamp | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["last_call_started_timestamp", b"last_call_started_timestamp", "trace", b"trace"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["calls_failed", b"calls_failed", "calls_started", b"calls_started", "calls_succeeded", b"calls_succeeded", "last_call_started_timestamp", b"last_call_started_timestamp", "trace", b"trace"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["last_call_started_timestamp", b"last_call_started_timestamp", "trace", b"trace"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["calls_failed", b"calls_failed", "calls_started", b"calls_started", "calls_succeeded", b"calls_succeeded", "last_call_started_timestamp", b"last_call_started_timestamp", "trace", b"trace"]) -> None: ...
 
 global___ServerData = ServerData
 
-@typing_extensions.final
+@typing.final
 class Socket(google.protobuf.message.Message):
     """Information about an actual connection.  Pronounced "sock-ay"."""
 
@@ -477,27 +499,32 @@ class Socket(google.protobuf.message.Message):
     REMOTE_FIELD_NUMBER: builtins.int
     SECURITY_FIELD_NUMBER: builtins.int
     REMOTE_NAME_FIELD_NUMBER: builtins.int
+    remote_name: builtins.str
+    """Optional, represents the name of the remote endpoint, if different than
+    the original target name.
+    """
     @property
     def ref(self) -> global___SocketRef:
         """The identifier for the Socket."""
+
     @property
     def data(self) -> global___SocketData:
         """Data specific to this Socket."""
+
     @property
     def local(self) -> global___Address:
         """The locally bound address."""
+
     @property
     def remote(self) -> global___Address:
         """The remote bound address.  May be absent."""
+
     @property
     def security(self) -> global___Security:
         """Security details for this socket.  May be absent if not available, or
         there is no security on the socket.
         """
-    remote_name: builtins.str
-    """Optional, represents the name of the remote endpoint, if different than
-    the original target name.
-    """
+
     def __init__(
         self,
         *,
@@ -508,12 +535,12 @@ class Socket(google.protobuf.message.Message):
         security: global___Security | None = ...,
         remote_name: builtins.str = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["data", b"data", "local", b"local", "ref", b"ref", "remote", b"remote", "security", b"security"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["data", b"data", "local", b"local", "ref", b"ref", "remote", b"remote", "remote_name", b"remote_name", "security", b"security"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["data", b"data", "local", b"local", "ref", b"ref", "remote", b"remote", "security", b"security"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["data", b"data", "local", b"local", "ref", b"ref", "remote", b"remote", "remote_name", b"remote_name", "security", b"security"]) -> None: ...
 
 global___Socket = Socket
 
-@typing_extensions.final
+@typing.final
 class SocketData(google.protobuf.message.Message):
     """SocketData is data associated for a specific Socket.  The fields present
     are specific to the implementation, so there may be minor differences in
@@ -560,34 +587,41 @@ class SocketData(google.protobuf.message.Message):
         """The last time a stream was created by this endpoint.  Usually unset for
         servers.
         """
+
     @property
     def last_remote_stream_created_timestamp(self) -> google.protobuf.timestamp_pb2.Timestamp:
         """The last time a stream was created by the remote endpoint.  Usually unset
         for clients.
         """
+
     @property
     def last_message_sent_timestamp(self) -> google.protobuf.timestamp_pb2.Timestamp:
         """The last time a message was sent by this endpoint."""
+
     @property
     def last_message_received_timestamp(self) -> google.protobuf.timestamp_pb2.Timestamp:
         """The last time a message was received by this endpoint."""
+
     @property
     def local_flow_control_window(self) -> google.protobuf.wrappers_pb2.Int64Value:
         """The amount of window, granted to the local endpoint by the remote endpoint.
         This may be slightly out of date due to network latency.  This does NOT
         include stream level or TCP level flow control info.
         """
+
     @property
     def remote_flow_control_window(self) -> google.protobuf.wrappers_pb2.Int64Value:
         """The amount of window, granted to the remote endpoint by the local endpoint.
         This may be slightly out of date due to network latency.  This does NOT
         include stream level or TCP level flow control info.
         """
+
     @property
     def option(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___SocketOption]:
         """Socket options set on this socket.  May be absent if 'summary' is set
         on GetSocketRequest.
         """
+
     def __init__(
         self,
         *,
@@ -605,18 +639,18 @@ class SocketData(google.protobuf.message.Message):
         remote_flow_control_window: google.protobuf.wrappers_pb2.Int64Value | None = ...,
         option: collections.abc.Iterable[global___SocketOption] | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["last_local_stream_created_timestamp", b"last_local_stream_created_timestamp", "last_message_received_timestamp", b"last_message_received_timestamp", "last_message_sent_timestamp", b"last_message_sent_timestamp", "last_remote_stream_created_timestamp", b"last_remote_stream_created_timestamp", "local_flow_control_window", b"local_flow_control_window", "remote_flow_control_window", b"remote_flow_control_window"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["keep_alives_sent", b"keep_alives_sent", "last_local_stream_created_timestamp", b"last_local_stream_created_timestamp", "last_message_received_timestamp", b"last_message_received_timestamp", "last_message_sent_timestamp", b"last_message_sent_timestamp", "last_remote_stream_created_timestamp", b"last_remote_stream_created_timestamp", "local_flow_control_window", b"local_flow_control_window", "messages_received", b"messages_received", "messages_sent", b"messages_sent", "option", b"option", "remote_flow_control_window", b"remote_flow_control_window", "streams_failed", b"streams_failed", "streams_started", b"streams_started", "streams_succeeded", b"streams_succeeded"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["last_local_stream_created_timestamp", b"last_local_stream_created_timestamp", "last_message_received_timestamp", b"last_message_received_timestamp", "last_message_sent_timestamp", b"last_message_sent_timestamp", "last_remote_stream_created_timestamp", b"last_remote_stream_created_timestamp", "local_flow_control_window", b"local_flow_control_window", "remote_flow_control_window", b"remote_flow_control_window"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["keep_alives_sent", b"keep_alives_sent", "last_local_stream_created_timestamp", b"last_local_stream_created_timestamp", "last_message_received_timestamp", b"last_message_received_timestamp", "last_message_sent_timestamp", b"last_message_sent_timestamp", "last_remote_stream_created_timestamp", b"last_remote_stream_created_timestamp", "local_flow_control_window", b"local_flow_control_window", "messages_received", b"messages_received", "messages_sent", b"messages_sent", "option", b"option", "remote_flow_control_window", b"remote_flow_control_window", "streams_failed", b"streams_failed", "streams_started", b"streams_started", "streams_succeeded", b"streams_succeeded"]) -> None: ...
 
 global___SocketData = SocketData
 
-@typing_extensions.final
+@typing.final
 class Address(google.protobuf.message.Message):
     """Address represents the address used to create the socket."""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class TcpIpAddress(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -634,9 +668,9 @@ class Address(google.protobuf.message.Message):
             ip_address: builtins.bytes = ...,
             port: builtins.int = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["ip_address", b"ip_address", "port", b"port"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["ip_address", b"ip_address", "port", b"port"]) -> None: ...
 
-    @typing_extensions.final
+    @typing.final
     class UdsAddress(google.protobuf.message.Message):
         """A Unix Domain Socket address."""
 
@@ -649,9 +683,9 @@ class Address(google.protobuf.message.Message):
             *,
             filename: builtins.str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["filename", b"filename"]) -> None: ...
+        def ClearField(self, field_name: typing.Literal["filename", b"filename"]) -> None: ...
 
-    @typing_extensions.final
+    @typing.final
     class OtherAddress(google.protobuf.message.Message):
         """An address type not included above."""
 
@@ -664,14 +698,15 @@ class Address(google.protobuf.message.Message):
         @property
         def value(self) -> google.protobuf.any_pb2.Any:
             """The actual address message."""
+
         def __init__(
             self,
             *,
             name: builtins.str = ...,
             value: google.protobuf.any_pb2.Any | None = ...,
         ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal["value", b"value"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal["name", b"name", "value", b"value"]) -> None: ...
+        def HasField(self, field_name: typing.Literal["value", b"value"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing.Literal["name", b"name", "value", b"value"]) -> None: ...
 
     TCPIP_ADDRESS_FIELD_NUMBER: builtins.int
     UDS_ADDRESS_FIELD_NUMBER: builtins.int
@@ -689,19 +724,19 @@ class Address(google.protobuf.message.Message):
         uds_address: global___Address.UdsAddress | None = ...,
         other_address: global___Address.OtherAddress | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["address", b"address", "other_address", b"other_address", "tcpip_address", b"tcpip_address", "uds_address", b"uds_address"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["address", b"address", "other_address", b"other_address", "tcpip_address", b"tcpip_address", "uds_address", b"uds_address"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal["address", b"address"]) -> typing_extensions.Literal["tcpip_address", "uds_address", "other_address"] | None: ...
+    def HasField(self, field_name: typing.Literal["address", b"address", "other_address", b"other_address", "tcpip_address", b"tcpip_address", "uds_address", b"uds_address"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["address", b"address", "other_address", b"other_address", "tcpip_address", b"tcpip_address", "uds_address", b"uds_address"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing.Literal["address", b"address"]) -> typing.Literal["tcpip_address", "uds_address", "other_address"] | None: ...
 
 global___Address = Address
 
-@typing_extensions.final
+@typing.final
 class Security(google.protobuf.message.Message):
     """Security represents details about how secure the socket is."""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    @typing_extensions.final
+    @typing.final
     class Tls(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -729,11 +764,11 @@ class Security(google.protobuf.message.Message):
             local_certificate: builtins.bytes = ...,
             remote_certificate: builtins.bytes = ...,
         ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal["cipher_suite", b"cipher_suite", "other_name", b"other_name", "standard_name", b"standard_name"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal["cipher_suite", b"cipher_suite", "local_certificate", b"local_certificate", "other_name", b"other_name", "remote_certificate", b"remote_certificate", "standard_name", b"standard_name"]) -> None: ...
-        def WhichOneof(self, oneof_group: typing_extensions.Literal["cipher_suite", b"cipher_suite"]) -> typing_extensions.Literal["standard_name", "other_name"] | None: ...
+        def HasField(self, field_name: typing.Literal["cipher_suite", b"cipher_suite", "other_name", b"other_name", "standard_name", b"standard_name"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing.Literal["cipher_suite", b"cipher_suite", "local_certificate", b"local_certificate", "other_name", b"other_name", "remote_certificate", b"remote_certificate", "standard_name", b"standard_name"]) -> None: ...
+        def WhichOneof(self, oneof_group: typing.Literal["cipher_suite", b"cipher_suite"]) -> typing.Literal["standard_name", "other_name"] | None: ...
 
-    @typing_extensions.final
+    @typing.final
     class OtherSecurity(google.protobuf.message.Message):
         DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -744,14 +779,15 @@ class Security(google.protobuf.message.Message):
         @property
         def value(self) -> google.protobuf.any_pb2.Any:
             """The actual security details message."""
+
         def __init__(
             self,
             *,
             name: builtins.str = ...,
             value: google.protobuf.any_pb2.Any | None = ...,
         ) -> None: ...
-        def HasField(self, field_name: typing_extensions.Literal["value", b"value"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing_extensions.Literal["name", b"name", "value", b"value"]) -> None: ...
+        def HasField(self, field_name: typing.Literal["value", b"value"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing.Literal["name", b"name", "value", b"value"]) -> None: ...
 
     TLS_FIELD_NUMBER: builtins.int
     OTHER_FIELD_NUMBER: builtins.int
@@ -765,13 +801,13 @@ class Security(google.protobuf.message.Message):
         tls: global___Security.Tls | None = ...,
         other: global___Security.OtherSecurity | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["model", b"model", "other", b"other", "tls", b"tls"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["model", b"model", "other", b"other", "tls", b"tls"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal["model", b"model"]) -> typing_extensions.Literal["tls", "other"] | None: ...
+    def HasField(self, field_name: typing.Literal["model", b"model", "other", b"other", "tls", b"tls"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["model", b"model", "other", b"other", "tls", b"tls"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing.Literal["model", b"model"]) -> typing.Literal["tls", "other"] | None: ...
 
 global___Security = Security
 
-@typing_extensions.final
+@typing.final
 class SocketOption(google.protobuf.message.Message):
     """SocketOption represents socket options for a socket.  Specifically, these
     are the options returned by getsockopt().
@@ -795,6 +831,7 @@ class SocketOption(google.protobuf.message.Message):
         """Additional data associated with the socket option.  At least one of value
         or additional will be set.
         """
+
     def __init__(
         self,
         *,
@@ -802,12 +839,12 @@ class SocketOption(google.protobuf.message.Message):
         value: builtins.str = ...,
         additional: google.protobuf.any_pb2.Any | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["additional", b"additional"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["additional", b"additional", "name", b"name", "value", b"value"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["additional", b"additional"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["additional", b"additional", "name", b"name", "value", b"value"]) -> None: ...
 
 global___SocketOption = SocketOption
 
-@typing_extensions.final
+@typing.final
 class SocketOptionTimeout(google.protobuf.message.Message):
     """For use with SocketOption's additional field.  This is primarily used for
     SO_RCVTIMEO and SO_SNDTIMEO
@@ -823,12 +860,12 @@ class SocketOptionTimeout(google.protobuf.message.Message):
         *,
         duration: google.protobuf.duration_pb2.Duration | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["duration", b"duration"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["duration", b"duration"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["duration", b"duration"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["duration", b"duration"]) -> None: ...
 
 global___SocketOptionTimeout = SocketOptionTimeout
 
-@typing_extensions.final
+@typing.final
 class SocketOptionLinger(google.protobuf.message.Message):
     """For use with SocketOption's additional field.  This is primarily used for
     SO_LINGER.
@@ -843,18 +880,19 @@ class SocketOptionLinger(google.protobuf.message.Message):
     @property
     def duration(self) -> google.protobuf.duration_pb2.Duration:
         """duration maps to `struct linger.l_linger`"""
+
     def __init__(
         self,
         *,
         active: builtins.bool = ...,
         duration: google.protobuf.duration_pb2.Duration | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["duration", b"duration"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["active", b"active", "duration", b"duration"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["duration", b"duration"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["active", b"active", "duration", b"duration"]) -> None: ...
 
 global___SocketOptionLinger = SocketOptionLinger
 
-@typing_extensions.final
+@typing.final
 class SocketOptionTcpInfo(google.protobuf.message.Message):
     """For use with SocketOption's additional field.  Tcp info for
     SOL_TCP and TCP_INFO.
@@ -953,11 +991,11 @@ class SocketOptionTcpInfo(google.protobuf.message.Message):
         tcpi_advmss: builtins.int = ...,
         tcpi_reordering: builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["tcpi_advmss", b"tcpi_advmss", "tcpi_ato", b"tcpi_ato", "tcpi_backoff", b"tcpi_backoff", "tcpi_ca_state", b"tcpi_ca_state", "tcpi_fackets", b"tcpi_fackets", "tcpi_last_ack_recv", b"tcpi_last_ack_recv", "tcpi_last_ack_sent", b"tcpi_last_ack_sent", "tcpi_last_data_recv", b"tcpi_last_data_recv", "tcpi_last_data_sent", b"tcpi_last_data_sent", "tcpi_lost", b"tcpi_lost", "tcpi_options", b"tcpi_options", "tcpi_pmtu", b"tcpi_pmtu", "tcpi_probes", b"tcpi_probes", "tcpi_rcv_mss", b"tcpi_rcv_mss", "tcpi_rcv_ssthresh", b"tcpi_rcv_ssthresh", "tcpi_rcv_wscale", b"tcpi_rcv_wscale", "tcpi_reordering", b"tcpi_reordering", "tcpi_retrans", b"tcpi_retrans", "tcpi_retransmits", b"tcpi_retransmits", "tcpi_rto", b"tcpi_rto", "tcpi_rtt", b"tcpi_rtt", "tcpi_rttvar", b"tcpi_rttvar", "tcpi_sacked", b"tcpi_sacked", "tcpi_snd_cwnd", b"tcpi_snd_cwnd", "tcpi_snd_mss", b"tcpi_snd_mss", "tcpi_snd_ssthresh", b"tcpi_snd_ssthresh", "tcpi_snd_wscale", b"tcpi_snd_wscale", "tcpi_state", b"tcpi_state", "tcpi_unacked", b"tcpi_unacked"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["tcpi_advmss", b"tcpi_advmss", "tcpi_ato", b"tcpi_ato", "tcpi_backoff", b"tcpi_backoff", "tcpi_ca_state", b"tcpi_ca_state", "tcpi_fackets", b"tcpi_fackets", "tcpi_last_ack_recv", b"tcpi_last_ack_recv", "tcpi_last_ack_sent", b"tcpi_last_ack_sent", "tcpi_last_data_recv", b"tcpi_last_data_recv", "tcpi_last_data_sent", b"tcpi_last_data_sent", "tcpi_lost", b"tcpi_lost", "tcpi_options", b"tcpi_options", "tcpi_pmtu", b"tcpi_pmtu", "tcpi_probes", b"tcpi_probes", "tcpi_rcv_mss", b"tcpi_rcv_mss", "tcpi_rcv_ssthresh", b"tcpi_rcv_ssthresh", "tcpi_rcv_wscale", b"tcpi_rcv_wscale", "tcpi_reordering", b"tcpi_reordering", "tcpi_retrans", b"tcpi_retrans", "tcpi_retransmits", b"tcpi_retransmits", "tcpi_rto", b"tcpi_rto", "tcpi_rtt", b"tcpi_rtt", "tcpi_rttvar", b"tcpi_rttvar", "tcpi_sacked", b"tcpi_sacked", "tcpi_snd_cwnd", b"tcpi_snd_cwnd", "tcpi_snd_mss", b"tcpi_snd_mss", "tcpi_snd_ssthresh", b"tcpi_snd_ssthresh", "tcpi_snd_wscale", b"tcpi_snd_wscale", "tcpi_state", b"tcpi_state", "tcpi_unacked", b"tcpi_unacked"]) -> None: ...
 
 global___SocketOptionTcpInfo = SocketOptionTcpInfo
 
-@typing_extensions.final
+@typing.final
 class GetTopChannelsRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -981,38 +1019,39 @@ class GetTopChannelsRequest(google.protobuf.message.Message):
         start_channel_id: builtins.int = ...,
         max_results: builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["max_results", b"max_results", "start_channel_id", b"start_channel_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["max_results", b"max_results", "start_channel_id", b"start_channel_id"]) -> None: ...
 
 global___GetTopChannelsRequest = GetTopChannelsRequest
 
-@typing_extensions.final
+@typing.final
 class GetTopChannelsResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
     CHANNEL_FIELD_NUMBER: builtins.int
     END_FIELD_NUMBER: builtins.int
+    end: builtins.bool
+    """If set, indicates that the list of channels is the final list.  Requesting
+    more channels can only return more if they are created after this RPC
+    completes.
+    """
     @property
     def channel(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___Channel]:
         """list of channels that the connection detail service knows about.  Sorted in
         ascending channel_id order.
         Must contain at least 1 result, otherwise 'end' must be true.
         """
-    end: builtins.bool
-    """If set, indicates that the list of channels is the final list.  Requesting
-    more channels can only return more if they are created after this RPC
-    completes.
-    """
+
     def __init__(
         self,
         *,
         channel: collections.abc.Iterable[global___Channel] | None = ...,
         end: builtins.bool = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["channel", b"channel", "end", b"end"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["channel", b"channel", "end", b"end"]) -> None: ...
 
 global___GetTopChannelsResponse = GetTopChannelsResponse
 
-@typing_extensions.final
+@typing.final
 class GetServersRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1036,38 +1075,39 @@ class GetServersRequest(google.protobuf.message.Message):
         start_server_id: builtins.int = ...,
         max_results: builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["max_results", b"max_results", "start_server_id", b"start_server_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["max_results", b"max_results", "start_server_id", b"start_server_id"]) -> None: ...
 
 global___GetServersRequest = GetServersRequest
 
-@typing_extensions.final
+@typing.final
 class GetServersResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
     SERVER_FIELD_NUMBER: builtins.int
     END_FIELD_NUMBER: builtins.int
+    end: builtins.bool
+    """If set, indicates that the list of servers is the final list.  Requesting
+    more servers will only return more if they are created after this RPC
+    completes.
+    """
     @property
     def server(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___Server]:
         """list of servers that the connection detail service knows about.  Sorted in
         ascending server_id order.
         Must contain at least 1 result, otherwise 'end' must be true.
         """
-    end: builtins.bool
-    """If set, indicates that the list of servers is the final list.  Requesting
-    more servers will only return more if they are created after this RPC
-    completes.
-    """
+
     def __init__(
         self,
         *,
         server: collections.abc.Iterable[global___Server] | None = ...,
         end: builtins.bool = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["end", b"end", "server", b"server"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["end", b"end", "server", b"server"]) -> None: ...
 
 global___GetServersResponse = GetServersResponse
 
-@typing_extensions.final
+@typing.final
 class GetServerRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1079,11 +1119,11 @@ class GetServerRequest(google.protobuf.message.Message):
         *,
         server_id: builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["server_id", b"server_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["server_id", b"server_id"]) -> None: ...
 
 global___GetServerRequest = GetServerRequest
 
-@typing_extensions.final
+@typing.final
 class GetServerResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1093,17 +1133,18 @@ class GetServerResponse(google.protobuf.message.Message):
         """The Server that corresponds to the requested server_id.  This field
         should be set.
         """
+
     def __init__(
         self,
         *,
         server: global___Server | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["server", b"server"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["server", b"server"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["server", b"server"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["server", b"server"]) -> None: ...
 
 global___GetServerResponse = GetServerResponse
 
-@typing_extensions.final
+@typing.final
 class GetServerSocketsRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1130,38 +1171,39 @@ class GetServerSocketsRequest(google.protobuf.message.Message):
         start_socket_id: builtins.int = ...,
         max_results: builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["max_results", b"max_results", "server_id", b"server_id", "start_socket_id", b"start_socket_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["max_results", b"max_results", "server_id", b"server_id", "start_socket_id", b"start_socket_id"]) -> None: ...
 
 global___GetServerSocketsRequest = GetServerSocketsRequest
 
-@typing_extensions.final
+@typing.final
 class GetServerSocketsResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
     SOCKET_REF_FIELD_NUMBER: builtins.int
     END_FIELD_NUMBER: builtins.int
+    end: builtins.bool
+    """If set, indicates that the list of sockets is the final list.  Requesting
+    more sockets will only return more if they are created after this RPC
+    completes.
+    """
     @property
     def socket_ref(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___SocketRef]:
         """list of socket refs that the connection detail service knows about.  Sorted in
         ascending socket_id order.
         Must contain at least 1 result, otherwise 'end' must be true.
         """
-    end: builtins.bool
-    """If set, indicates that the list of sockets is the final list.  Requesting
-    more sockets will only return more if they are created after this RPC
-    completes.
-    """
+
     def __init__(
         self,
         *,
         socket_ref: collections.abc.Iterable[global___SocketRef] | None = ...,
         end: builtins.bool = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["end", b"end", "socket_ref", b"socket_ref"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["end", b"end", "socket_ref", b"socket_ref"]) -> None: ...
 
 global___GetServerSocketsResponse = GetServerSocketsResponse
 
-@typing_extensions.final
+@typing.final
 class GetChannelRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1173,11 +1215,11 @@ class GetChannelRequest(google.protobuf.message.Message):
         *,
         channel_id: builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["channel_id", b"channel_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["channel_id", b"channel_id"]) -> None: ...
 
 global___GetChannelRequest = GetChannelRequest
 
-@typing_extensions.final
+@typing.final
 class GetChannelResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1187,17 +1229,18 @@ class GetChannelResponse(google.protobuf.message.Message):
         """The Channel that corresponds to the requested channel_id.  This field
         should be set.
         """
+
     def __init__(
         self,
         *,
         channel: global___Channel | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["channel", b"channel"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["channel", b"channel"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["channel", b"channel"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["channel", b"channel"]) -> None: ...
 
 global___GetChannelResponse = GetChannelResponse
 
-@typing_extensions.final
+@typing.final
 class GetSubchannelRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1209,11 +1252,11 @@ class GetSubchannelRequest(google.protobuf.message.Message):
         *,
         subchannel_id: builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["subchannel_id", b"subchannel_id"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["subchannel_id", b"subchannel_id"]) -> None: ...
 
 global___GetSubchannelRequest = GetSubchannelRequest
 
-@typing_extensions.final
+@typing.final
 class GetSubchannelResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1223,17 +1266,18 @@ class GetSubchannelResponse(google.protobuf.message.Message):
         """The Subchannel that corresponds to the requested subchannel_id.  This
         field should be set.
         """
+
     def __init__(
         self,
         *,
         subchannel: global___Subchannel | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["subchannel", b"subchannel"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["subchannel", b"subchannel"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["subchannel", b"subchannel"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["subchannel", b"subchannel"]) -> None: ...
 
 global___GetSubchannelResponse = GetSubchannelResponse
 
-@typing_extensions.final
+@typing.final
 class GetSocketRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1252,11 +1296,11 @@ class GetSocketRequest(google.protobuf.message.Message):
         socket_id: builtins.int = ...,
         summary: builtins.bool = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["socket_id", b"socket_id", "summary", b"summary"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["socket_id", b"socket_id", "summary", b"summary"]) -> None: ...
 
 global___GetSocketRequest = GetSocketRequest
 
-@typing_extensions.final
+@typing.final
 class GetSocketResponse(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -1266,12 +1310,13 @@ class GetSocketResponse(google.protobuf.message.Message):
         """The Socket that corresponds to the requested socket_id.  This field
         should be set.
         """
+
     def __init__(
         self,
         *,
         socket: global___Socket | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["socket", b"socket"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["socket", b"socket"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["socket", b"socket"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["socket", b"socket"]) -> None: ...
 
 global___GetSocketResponse = GetSocketResponse

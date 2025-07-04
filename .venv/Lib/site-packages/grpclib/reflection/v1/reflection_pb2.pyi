@@ -8,21 +8,17 @@ https://github.com/grpc/grpc/blob/master/doc/server-reflection.md
 The canonical version of this proto can be found at
 https://github.com/grpc/grpc-proto/blob/master/grpc/reflection/v1/reflection.proto
 """
+
 import builtins
 import collections.abc
 import google.protobuf.descriptor
 import google.protobuf.internal.containers
 import google.protobuf.message
-import sys
-
-if sys.version_info >= (3, 8):
-    import typing as typing_extensions
-else:
-    import typing_extensions
+import typing
 
 DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
-@typing_extensions.final
+@typing.final
 class ServerReflectionRequest(google.protobuf.message.Message):
     """The message sent by the client when calling ServerReflectionInfo method."""
 
@@ -42,11 +38,6 @@ class ServerReflectionRequest(google.protobuf.message.Message):
     This field should be a fully-qualified symbol name
     (e.g. <package>.<service>[.<method>] or <package>.<type>).
     """
-    @property
-    def file_containing_extension(self) -> global___ExtensionRequest:
-        """Find the proto file which defines an extension extending the given
-        message type with the given field number.
-        """
     all_extension_numbers_of_type: builtins.str
     """Finds the tag numbers used by all known extensions of the given message
     type, and appends them to ExtensionNumberResponse in an undefined order.
@@ -61,6 +52,12 @@ class ServerReflectionRequest(google.protobuf.message.Message):
     """List the full names of registered services. The content will not be
     checked.
     """
+    @property
+    def file_containing_extension(self) -> global___ExtensionRequest:
+        """Find the proto file which defines an extension extending the given
+        message type with the given field number.
+        """
+
     def __init__(
         self,
         *,
@@ -71,13 +68,13 @@ class ServerReflectionRequest(google.protobuf.message.Message):
         all_extension_numbers_of_type: builtins.str = ...,
         list_services: builtins.str = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["all_extension_numbers_of_type", b"all_extension_numbers_of_type", "file_by_filename", b"file_by_filename", "file_containing_extension", b"file_containing_extension", "file_containing_symbol", b"file_containing_symbol", "list_services", b"list_services", "message_request", b"message_request"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["all_extension_numbers_of_type", b"all_extension_numbers_of_type", "file_by_filename", b"file_by_filename", "file_containing_extension", b"file_containing_extension", "file_containing_symbol", b"file_containing_symbol", "host", b"host", "list_services", b"list_services", "message_request", b"message_request"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal["message_request", b"message_request"]) -> typing_extensions.Literal["file_by_filename", "file_containing_symbol", "file_containing_extension", "all_extension_numbers_of_type", "list_services"] | None: ...
+    def HasField(self, field_name: typing.Literal["all_extension_numbers_of_type", b"all_extension_numbers_of_type", "file_by_filename", b"file_by_filename", "file_containing_extension", b"file_containing_extension", "file_containing_symbol", b"file_containing_symbol", "list_services", b"list_services", "message_request", b"message_request"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["all_extension_numbers_of_type", b"all_extension_numbers_of_type", "file_by_filename", b"file_by_filename", "file_containing_extension", b"file_containing_extension", "file_containing_symbol", b"file_containing_symbol", "host", b"host", "list_services", b"list_services", "message_request", b"message_request"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing.Literal["message_request", b"message_request"]) -> typing.Literal["file_by_filename", "file_containing_symbol", "file_containing_extension", "all_extension_numbers_of_type", "list_services"] | None: ...
 
 global___ServerReflectionRequest = ServerReflectionRequest
 
-@typing_extensions.final
+@typing.final
 class ExtensionRequest(google.protobuf.message.Message):
     """The type name and extension number sent by the client when requesting
     file_containing_extension.
@@ -96,11 +93,11 @@ class ExtensionRequest(google.protobuf.message.Message):
         containing_type: builtins.str = ...,
         extension_number: builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["containing_type", b"containing_type", "extension_number", b"extension_number"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["containing_type", b"containing_type", "extension_number", b"extension_number"]) -> None: ...
 
 global___ExtensionRequest = ExtensionRequest
 
-@typing_extensions.final
+@typing.final
 class ServerReflectionResponse(google.protobuf.message.Message):
     """The message sent by the server to answer ServerReflectionInfo method."""
 
@@ -124,15 +121,19 @@ class ServerReflectionResponse(google.protobuf.message.Message):
         The reflection service is allowed to avoid sending FileDescriptorProtos
         that were previously sent in response to earlier requests in the stream.
         """
+
     @property
     def all_extension_numbers_response(self) -> global___ExtensionNumberResponse:
         """This message is used to answer all_extension_numbers_of_type requests."""
+
     @property
     def list_services_response(self) -> global___ListServiceResponse:
         """This message is used to answer list_services requests."""
+
     @property
     def error_response(self) -> global___ErrorResponse:
         """This message is used when an error occurs."""
+
     def __init__(
         self,
         *,
@@ -143,13 +144,13 @@ class ServerReflectionResponse(google.protobuf.message.Message):
         list_services_response: global___ListServiceResponse | None = ...,
         error_response: global___ErrorResponse | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing_extensions.Literal["all_extension_numbers_response", b"all_extension_numbers_response", "error_response", b"error_response", "file_descriptor_response", b"file_descriptor_response", "list_services_response", b"list_services_response", "message_response", b"message_response", "original_request", b"original_request"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing_extensions.Literal["all_extension_numbers_response", b"all_extension_numbers_response", "error_response", b"error_response", "file_descriptor_response", b"file_descriptor_response", "list_services_response", b"list_services_response", "message_response", b"message_response", "original_request", b"original_request", "valid_host", b"valid_host"]) -> None: ...
-    def WhichOneof(self, oneof_group: typing_extensions.Literal["message_response", b"message_response"]) -> typing_extensions.Literal["file_descriptor_response", "all_extension_numbers_response", "list_services_response", "error_response"] | None: ...
+    def HasField(self, field_name: typing.Literal["all_extension_numbers_response", b"all_extension_numbers_response", "error_response", b"error_response", "file_descriptor_response", b"file_descriptor_response", "list_services_response", b"list_services_response", "message_response", b"message_response", "original_request", b"original_request"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["all_extension_numbers_response", b"all_extension_numbers_response", "error_response", b"error_response", "file_descriptor_response", b"file_descriptor_response", "list_services_response", b"list_services_response", "message_response", b"message_response", "original_request", b"original_request", "valid_host", b"valid_host"]) -> None: ...
+    def WhichOneof(self, oneof_group: typing.Literal["message_response", b"message_response"]) -> typing.Literal["file_descriptor_response", "all_extension_numbers_response", "list_services_response", "error_response"] | None: ...
 
 global___ServerReflectionResponse = ServerReflectionResponse
 
-@typing_extensions.final
+@typing.final
 class FileDescriptorResponse(google.protobuf.message.Message):
     """Serialized FileDescriptorProto messages sent by the server answering
     a file_by_filename, file_containing_symbol, or file_containing_extension
@@ -165,16 +166,17 @@ class FileDescriptorResponse(google.protobuf.message.Message):
         descriptor.proto, which uses proto2 only features, by making them opaque
         bytes instead.
         """
+
     def __init__(
         self,
         *,
         file_descriptor_proto: collections.abc.Iterable[builtins.bytes] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["file_descriptor_proto", b"file_descriptor_proto"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["file_descriptor_proto", b"file_descriptor_proto"]) -> None: ...
 
 global___FileDescriptorResponse = FileDescriptorResponse
 
-@typing_extensions.final
+@typing.final
 class ExtensionNumberResponse(google.protobuf.message.Message):
     """A list of extension numbers sent by the server answering
     all_extension_numbers_of_type request.
@@ -196,11 +198,11 @@ class ExtensionNumberResponse(google.protobuf.message.Message):
         base_type_name: builtins.str = ...,
         extension_number: collections.abc.Iterable[builtins.int] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["base_type_name", b"base_type_name", "extension_number", b"extension_number"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["base_type_name", b"base_type_name", "extension_number", b"extension_number"]) -> None: ...
 
 global___ExtensionNumberResponse = ExtensionNumberResponse
 
-@typing_extensions.final
+@typing.final
 class ListServiceResponse(google.protobuf.message.Message):
     """A list of ServiceResponse sent by the server answering list_services request."""
 
@@ -212,16 +214,17 @@ class ListServiceResponse(google.protobuf.message.Message):
         """The information of each service may be expanded in the future, so we use
         ServiceResponse message to encapsulate it.
         """
+
     def __init__(
         self,
         *,
         service: collections.abc.Iterable[global___ServiceResponse] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["service", b"service"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["service", b"service"]) -> None: ...
 
 global___ListServiceResponse = ListServiceResponse
 
-@typing_extensions.final
+@typing.final
 class ServiceResponse(google.protobuf.message.Message):
     """The information of a single service used by ListServiceResponse to answer
     list_services request.
@@ -239,11 +242,11 @@ class ServiceResponse(google.protobuf.message.Message):
         *,
         name: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["name", b"name"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["name", b"name"]) -> None: ...
 
 global___ServiceResponse = ServiceResponse
 
-@typing_extensions.final
+@typing.final
 class ErrorResponse(google.protobuf.message.Message):
     """The error code and error message sent by the server when an error occurs."""
 
@@ -260,6 +263,6 @@ class ErrorResponse(google.protobuf.message.Message):
         error_code: builtins.int = ...,
         error_message: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["error_code", b"error_code", "error_message", b"error_message"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["error_code", b"error_code", "error_message", b"error_message"]) -> None: ...
 
 global___ErrorResponse = ErrorResponse
