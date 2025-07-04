@@ -71,7 +71,8 @@ result = result.replace("variant_set ","")
 result = result.replace("sound_effects ","")
 result = result.replace("speech_bubble ","")
 
-result = result.replace(" ",", ").replace("_"," ").replace("(","\(").replace(")","\)")
+#result = result.replace(" ",", ").replace("_"," ").replace("(","\(").replace(")","\)")
+result = result.replace(" ",", ").replace("_"," ").replace("(", r"\(").replace(")", r"\)")
 
 result = result+", masterpiece, best quality, good quality"
 print(" ")

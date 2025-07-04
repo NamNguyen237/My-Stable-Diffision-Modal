@@ -101,12 +101,12 @@ image = (
 app = modal.App(name="nam-dev-comfyui", image=image)
 
 @app.function(
-    allow_concurrent_inputs=10,
-    concurrency_limit=1,
-    container_idle_timeout=1200,
+    max_containers=1,
+    scaledown_window=6000,
     timeout=18000,
     gpu="A10G",
 )
+@modal.concurrent(max_inputs=10)
 @modal.web_server(8000, startup_timeout=60)
 def webui():
     subprocess.Popen("comfy launch -- --listen 0.0.0.0 --port 8000", shell=True)
