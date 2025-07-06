@@ -102,7 +102,7 @@ app = modal.App(name="nam-dev-comfyui", image=image)
 
 @app.function(
     max_containers=1,
-    scaledown_window=6000,
+    scaledown_window=3600,
     timeout=18000,
     gpu="A10G",
 )
