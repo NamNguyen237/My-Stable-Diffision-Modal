@@ -1,4 +1,5 @@
-comfy-cli>=1.2.7
+#comfy-cli>=1.2.7
+comfy-cli>=1.5.0
 facexlib
 insightface
 onnxruntime
