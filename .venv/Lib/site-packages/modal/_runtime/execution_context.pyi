@@ -68,11 +68,14 @@ def current_function_call_id() -> typing.Optional[str]:
     """
     ...
 
+def current_attempt_token() -> typing.Optional[str]: ...
 def _set_current_context_ids(
-    input_ids: list[str], function_call_ids: list[str]
+    input_ids: list[str], function_call_ids: list[str], attempt_tokens: list[str]
 ) -> collections.abc.Callable[[], None]: ...
 def _import_context(): ...
 
 _current_input_id: contextvars.ContextVar
 
 _current_function_call_id: contextvars.ContextVar
+
+_current_attempt_token: contextvars.ContextVar

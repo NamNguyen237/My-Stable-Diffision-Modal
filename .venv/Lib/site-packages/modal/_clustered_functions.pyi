@@ -3,12 +3,13 @@ import typing
 import typing_extensions
 
 class ClusterInfo:
-    """ClusterInfo(rank: int, container_ips: list[str])"""
+    """ClusterInfo(rank: int, container_ips: list[str], container_ipv4_ips: list[str])"""
 
     rank: int
     container_ips: list[str]
+    container_ipv4_ips: list[str]
 
-    def __init__(self, rank: int, container_ips: list[str]) -> None:
+    def __init__(self, rank: int, container_ips: list[str], container_ipv4_ips: list[str]) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
         ...
 

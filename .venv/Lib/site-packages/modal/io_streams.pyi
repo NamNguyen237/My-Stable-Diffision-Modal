@@ -8,7 +8,11 @@ def _sandbox_logs_iterator(
     sandbox_id: str, file_descriptor: int, last_entry_id: str, client: modal.client._Client
 ) -> collections.abc.AsyncGenerator[tuple[typing.Optional[bytes], str], None]: ...
 def _container_process_logs_iterator(
-    process_id: str, file_descriptor: int, client: modal.client._Client, last_index: int
+    process_id: str,
+    file_descriptor: int,
+    client: modal.client._Client,
+    last_index: int,
+    deadline: typing.Optional[float] = None,
 ) -> collections.abc.AsyncGenerator[tuple[typing.Optional[bytes], int], None]: ...
 
 T = typing.TypeVar("T")
@@ -46,6 +50,7 @@ class _StreamReader(typing.Generic[T]):
         stream_type: modal.stream_type.StreamType = modal.stream_type.StreamType.PIPE,
         text: bool = True,
         by_line: bool = False,
+        deadline: typing.Optional[float] = None,
     ) -> None:
         """mdmd:hidden"""
         ...
@@ -211,6 +216,7 @@ class StreamReader(typing.Generic[T]):
         stream_type: modal.stream_type.StreamType = modal.stream_type.StreamType.PIPE,
         text: bool = True,
         by_line: bool = False,
+        deadline: typing.Optional[float] = None,
     ) -> None:
         """mdmd:hidden"""
         ...

@@ -24,7 +24,7 @@ async def _init_local_app_new(
     interactive: bool = False,
 ) -> modal.running_app.RunningApp: ...
 async def _init_local_app_from_name(
-    client: modal.client._Client, name: str, namespace: typing.Any, environment_name: str = ""
+    client: modal.client._Client, name: str, environment_name: str = ""
 ) -> modal.running_app.RunningApp: ...
 async def _create_all_objects(
     client: modal.client._Client,
@@ -116,7 +116,7 @@ class DeployResult:
 async def _deploy_app(
     app: _App,
     name: typing.Optional[str] = None,
-    namespace: typing.Any = 1,
+    namespace: typing.Any = None,
     client: typing.Optional[modal.client._Client] = None,
     environment_name: typing.Optional[str] = None,
     tag: str = "",
@@ -204,7 +204,7 @@ class __deploy_app_spec(typing_extensions.Protocol):
         /,
         app: _App,
         name: typing.Optional[str] = None,
-        namespace: typing.Any = 1,
+        namespace: typing.Any = None,
         client: typing.Optional[modal.client.Client] = None,
         environment_name: typing.Optional[str] = None,
         tag: str = "",
@@ -220,7 +220,7 @@ class __deploy_app_spec(typing_extensions.Protocol):
         /,
         app: _App,
         name: typing.Optional[str] = None,
-        namespace: typing.Any = 1,
+        namespace: typing.Any = None,
         client: typing.Optional[modal.client.Client] = None,
         environment_name: typing.Optional[str] = None,
         tag: str = "",

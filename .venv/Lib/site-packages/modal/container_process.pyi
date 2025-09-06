@@ -31,6 +31,7 @@ class _ContainerProcess(typing.Generic[T]):
     _stdout: modal.io_streams._StreamReader[T]
     _stderr: modal.io_streams._StreamReader[T]
     _stdin: modal.io_streams._StreamWriter
+    _exec_deadline: typing.Optional[float]
     _text: bool
     _by_line: bool
     _returncode: typing.Optional[int]
@@ -41,6 +42,7 @@ class _ContainerProcess(typing.Generic[T]):
         client: modal.client._Client,
         stdout: modal.stream_type.StreamType = modal.stream_type.StreamType.PIPE,
         stderr: modal.stream_type.StreamType = modal.stream_type.StreamType.PIPE,
+        exec_deadline: typing.Optional[float] = None,
         text: bool = True,
         by_line: bool = False,
     ) -> None:
@@ -75,11 +77,14 @@ class _ContainerProcess(typing.Generic[T]):
         """
         ...
 
+    async def _wait_for_completion(self) -> int: ...
     async def wait(self) -> int:
         """Wait for the container process to finish running. Returns the exit code."""
         ...
 
-    async def attach(self): ...
+    async def attach(self):
+        """mdmd:hidden"""
+        ...
 
 SUPERSELF = typing.TypeVar("SUPERSELF", covariant=True)
 
@@ -108,6 +113,7 @@ class ContainerProcess(typing.Generic[T]):
     _stdout: modal.io_streams.StreamReader[T]
     _stderr: modal.io_streams.StreamReader[T]
     _stdin: modal.io_streams.StreamWriter
+    _exec_deadline: typing.Optional[float]
     _text: bool
     _by_line: bool
     _returncode: typing.Optional[int]
@@ -118,6 +124,7 @@ class ContainerProcess(typing.Generic[T]):
         client: modal.client.Client,
         stdout: modal.stream_type.StreamType = modal.stream_type.StreamType.PIPE,
         stderr: modal.stream_type.StreamType = modal.stream_type.StreamType.PIPE,
+        exec_deadline: typing.Optional[float] = None,
         text: bool = True,
         by_line: bool = False,
     ) -> None: ...
@@ -157,6 +164,12 @@ class ContainerProcess(typing.Generic[T]):
 
     poll: __poll_spec[typing_extensions.Self]
 
+    class ___wait_for_completion_spec(typing_extensions.Protocol[SUPERSELF]):
+        def __call__(self, /) -> int: ...
+        async def aio(self, /) -> int: ...
+
+    _wait_for_completion: ___wait_for_completion_spec[typing_extensions.Self]
+
     class __wait_spec(typing_extensions.Protocol[SUPERSELF]):
         def __call__(self, /) -> int:
             """Wait for the container process to finish running. Returns the exit code."""
@@ -169,7 +182,12 @@ class ContainerProcess(typing.Generic[T]):
     wait: __wait_spec[typing_extensions.Self]
 
     class __attach_spec(typing_extensions.Protocol[SUPERSELF]):
-        def __call__(self, /): ...
-        async def aio(self, /): ...
+        def __call__(self, /):
+            """mdmd:hidden"""
+            ...
+
+        async def aio(self, /):
+            """mdmd:hidden"""
+            ...
 
     attach: __attach_spec[typing_extensions.Self]
