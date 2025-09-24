@@ -793,8 +793,9 @@ class H2Connection:
         # Check we can open the stream.
         if stream_id not in self.streams:
             max_open_streams = self.remote_settings.max_concurrent_streams
-            if (self.open_outbound_streams + 1) > max_open_streams:
-                msg = f"Max outbound streams is {max_open_streams}, {self.open_outbound_streams} open"
+            value = self.open_outbound_streams # take a copy due to the property accessor having side affects
+            if (value + 1) > max_open_streams:
+                msg = f"Max outbound streams is {max_open_streams}, {value} open"
                 raise TooManyStreamsError(msg)
 
         self.state_machine.process_input(ConnectionInputs.SEND_HEADERS)
@@ -1593,8 +1594,9 @@ class H2Connection:
         # stream ID is valid.
         if frame.stream_id not in self.streams:
             max_open_streams = self.local_settings.max_concurrent_streams
-            if (self.open_inbound_streams + 1) > max_open_streams:
-                msg = f"Max outbound streams is {max_open_streams}, {self.open_outbound_streams} open"
+            value = self.open_inbound_streams # take a copy due to the property accessor having side affects
+            if (value + 1) > max_open_streams:
+                msg = f"Max inbound streams is {max_open_streams}, {value} open"
                 raise TooManyStreamsError(msg)
 
         # Let's decode the headers. We handle headers as bytes internally up
@@ -1806,9 +1808,7 @@ class H2Connection:
             )
 
             # FIXME: Should we split this into one event per active stream?
-            window_updated_event = WindowUpdated()
-            window_updated_event.stream_id = 0
-            window_updated_event.delta = frame.window_increment
+            window_updated_event = WindowUpdated(stream_id=0, delta=frame.window_increment)
             stream_events = [window_updated_event]
             frames = []
 
@@ -1825,9 +1825,9 @@ class H2Connection:
 
         evt: PingReceived | PingAckReceived
         if "ACK" in frame.flags:
-            evt = PingAckReceived()
+            evt = PingAckReceived(ping_data=frame.opaque_data)
         else:
-            evt = PingReceived()
+            evt = PingReceived(ping_data=frame.opaque_data)
 
             # automatically ACK the PING with the same 'opaque data'
             f = PingFrame(0)
@@ -1835,7 +1835,6 @@ class H2Connection:
             f.opaque_data = frame.opaque_data
             frames.append(f)
 
-        evt.ping_data = frame.opaque_data
         events.append(evt)
 
         return frames, events
@@ -1974,8 +1973,7 @@ class H2Connection:
         self.config.logger.debug(
             "Received unknown extension frame (ID %d)", frame.stream_id,
         )
-        event = UnknownFrameReceived()
-        event.frame = frame
+        event = UnknownFrameReceived(frame=frame)
         return [], [event]
 
     def _local_settings_acked(self) -> dict[SettingCodes | int, ChangedSetting]:

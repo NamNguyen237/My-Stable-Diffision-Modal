@@ -568,12 +568,14 @@ async def _create_single_client_dependency_mount(
     uv_python_platform: str,
     check_if_exists: bool = True,
     allow_overwrite: bool = False,
+    dry_run: bool = False,
 ): ...
 async def _create_client_dependency_mounts(
     client=None,
     python_versions: list[str] = ["3.9", "3.10", "3.11", "3.12", "3.13"],
     builder_versions: list[str] = ["2025.06"],
     check_if_exists=True,
+    dry_run=False,
 ): ...
 
 class __create_client_dependency_mounts_spec(typing_extensions.Protocol):
@@ -584,6 +586,7 @@ class __create_client_dependency_mounts_spec(typing_extensions.Protocol):
         python_versions: list[str] = ["3.9", "3.10", "3.11", "3.12", "3.13"],
         builder_versions: list[str] = ["2025.06"],
         check_if_exists=True,
+        dry_run=False,
     ): ...
     async def aio(
         self,
@@ -592,6 +595,7 @@ class __create_client_dependency_mounts_spec(typing_extensions.Protocol):
         python_versions: list[str] = ["3.9", "3.10", "3.11", "3.12", "3.13"],
         builder_versions: list[str] = ["2025.06"],
         check_if_exists=True,
+        dry_run=False,
     ): ...
 
 create_client_dependency_mounts: __create_client_dependency_mounts_spec

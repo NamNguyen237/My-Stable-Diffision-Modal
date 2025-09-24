@@ -79,8 +79,10 @@ class _OutputValue:
 
 MAX_INPUTS_OUTSTANDING_DEFAULT = 1000
 
-# maximum number of inputs to send to the server in a single request
+# Maximum number of inputs to send to the server per FunctionPutInputs request
 MAP_INVOCATION_CHUNK_SIZE = 49
+SPAWN_MAP_INVOCATION_CHUNK_SIZE = 512
+
 
 if typing.TYPE_CHECKING:
     import modal.functions
@@ -159,6 +161,7 @@ class InputPumper:
         input_queue: asyncio.Queue,
         function: "modal.functions._Function",
         function_call_id: str,
+        max_batch_size: int,
         map_items_manager: Optional["_MapItemsManager"] = None,
     ):
         self.client = client
@@ -167,10 +170,11 @@ class InputPumper:
         self.input_queue = input_queue
         self.inputs_sent = 0
         self.function_call_id = function_call_id
+        self.max_batch_size = max_batch_size
 
     async def pump_inputs(self):
         assert self.client.stub
-        async for items in queue_batch_iterator(self.input_queue, max_batch_size=MAP_INVOCATION_CHUNK_SIZE):
+        async for items in queue_batch_iterator(self.input_queue, max_batch_size=self.max_batch_size):
             # Add items to the manager. Their state will be SENDING.
             if self.map_items_manager is not None:
                 await self.map_items_manager.add_items(items)
@@ -234,6 +238,7 @@ class SyncInputPumper(InputPumper):
             input_queue=input_queue,
             function=function,
             function_call_id=function_call_id,
+            max_batch_size=MAP_INVOCATION_CHUNK_SIZE,
             map_items_manager=map_items_manager,
         )
         self.retry_queue = retry_queue
@@ -241,7 +246,7 @@ class SyncInputPumper(InputPumper):
         self.function_call_jwt = function_call_jwt
 
     async def retry_inputs(self):
-        async for retriable_idxs in queue_batch_iterator(self.retry_queue, max_batch_size=MAP_INVOCATION_CHUNK_SIZE):
+        async for retriable_idxs in queue_batch_iterator(self.retry_queue, max_batch_size=self.max_batch_size):
             # For each index, use the context in the manager to create a FunctionRetryInputsItem.
             # This will also update the context state to RETRYING.
             inputs: list[api_pb2.FunctionRetryInputsItem] = await self.map_items_manager.prepare_items_for_retry(
@@ -269,7 +274,13 @@ class AsyncInputPumper(InputPumper):
         function: "modal.functions._Function",
         function_call_id: str,
     ):
-        super().__init__(client, input_queue=input_queue, function=function, function_call_id=function_call_id)
+        super().__init__(
+            client,
+            input_queue=input_queue,
+            function=function,
+            function_call_id=function_call_id,
+            max_batch_size=SPAWN_MAP_INVOCATION_CHUNK_SIZE,
+        )
 
     async def pump_inputs(self):
         async for _ in super().pump_inputs():
@@ -762,7 +773,12 @@ async def _map_invocation_inputplane(
             metadata = await client.get_input_plane_metadata(function._input_plane_region)
 
             response: api_pb2.MapStartOrContinueResponse = await retry_transient_errors(
-                input_plane_stub.MapStartOrContinue, request, metadata=metadata
+                input_plane_stub.MapStartOrContinue,
+                request,
+                metadata=metadata,
+                additional_status_codes=[Status.RESOURCE_EXHAUSTED],
+                max_delay=PUMP_INPUTS_MAX_RETRY_DELAY,
+                max_retries=None,
             )
 
             # match response items to the corresponding request item index
@@ -794,7 +810,11 @@ async def _map_invocation_inputplane(
                     await function_call_id_received.wait()
                     continue
 
-                await asyncio.sleep(1)
+                sleep_task = asyncio.create_task(asyncio.sleep(1))
+                map_done_task = asyncio.create_task(map_done_event.wait())
+                done, _ = await asyncio.wait([sleep_task, map_done_task], return_when=FIRST_COMPLETED)
+                if map_done_task in done:
+                    break
 
                 # check_inputs = [(idx, attempt_token), ...]
                 check_inputs = map_items_manager.get_input_idxs_waiting_for_output()

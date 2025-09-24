@@ -367,11 +367,15 @@ class ModalClientStub:
         modal_proto.api_pb2.FunctionUpdateSchedulingParamsRequest,
         modal_proto.api_pb2.FunctionUpdateSchedulingParamsResponse,
     ]
+    ImageDelete: grpc.UnaryUnaryMultiCallable[
+        modal_proto.api_pb2.ImageDeleteRequest,
+        google.protobuf.empty_pb2.Empty,
+    ]
+    """Images"""
     ImageFromId: grpc.UnaryUnaryMultiCallable[
         modal_proto.api_pb2.ImageFromIdRequest,
         modal_proto.api_pb2.ImageFromIdResponse,
     ]
-    """Images"""
     ImageGetOrCreate: grpc.UnaryUnaryMultiCallable[
         modal_proto.api_pb2.ImageGetOrCreateRequest,
         modal_proto.api_pb2.ImageGetOrCreateResponse,
@@ -606,6 +610,11 @@ class ModalClientStub:
         google.protobuf.empty_pb2.Empty,
         modal_proto.api_pb2.TaskCurrentInputsResponse,
     ]
+    TaskGetAutoscalingMetrics: grpc.UnaryUnaryMultiCallable[
+        modal_proto.api_pb2.TaskGetAutoscalingMetricsRequest,
+        modal_proto.api_pb2.TaskGetAutoscalingMetricsResponse,
+    ]
+    """Used for flash autoscaling"""
     TaskList: grpc.UnaryUnaryMultiCallable[
         modal_proto.api_pb2.TaskListRequest,
         modal_proto.api_pb2.TaskListResponse,
@@ -1236,12 +1245,18 @@ class ModalClientServicer(metaclass=abc.ABCMeta):
         context: grpc.ServicerContext,
     ) -> modal_proto.api_pb2.FunctionUpdateSchedulingParamsResponse: ...
     @abc.abstractmethod
+    def ImageDelete(
+        self,
+        request: modal_proto.api_pb2.ImageDeleteRequest,
+        context: grpc.ServicerContext,
+    ) -> google.protobuf.empty_pb2.Empty:
+        """Images"""
+    @abc.abstractmethod
     def ImageFromId(
         self,
         request: modal_proto.api_pb2.ImageFromIdRequest,
         context: grpc.ServicerContext,
-    ) -> modal_proto.api_pb2.ImageFromIdResponse:
-        """Images"""
+    ) -> modal_proto.api_pb2.ImageFromIdResponse: ...
     @abc.abstractmethod
     def ImageGetOrCreate(
         self,
@@ -1588,6 +1603,13 @@ class ModalClientServicer(metaclass=abc.ABCMeta):
         request: google.protobuf.empty_pb2.Empty,
         context: grpc.ServicerContext,
     ) -> modal_proto.api_pb2.TaskCurrentInputsResponse: ...
+    @abc.abstractmethod
+    def TaskGetAutoscalingMetrics(
+        self,
+        request: modal_proto.api_pb2.TaskGetAutoscalingMetricsRequest,
+        context: grpc.ServicerContext,
+    ) -> modal_proto.api_pb2.TaskGetAutoscalingMetricsResponse:
+        """Used for flash autoscaling"""
     @abc.abstractmethod
     def TaskList(
         self,

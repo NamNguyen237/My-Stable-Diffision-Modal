@@ -85,6 +85,7 @@ class Function(
         proxy: typing.Optional[modal.proxy.Proxy] = None,
         retries: typing.Union[int, modal.retries.Retries, None] = None,
         timeout: int = 300,
+        startup_timeout: typing.Optional[int] = None,
         min_containers: typing.Optional[int] = None,
         max_containers: typing.Optional[int] = None,
         buffer_containers: typing.Optional[int] = None,
@@ -359,6 +360,17 @@ class Function(
 
     get_web_url: __get_web_url_spec[typing_extensions.Self]
 
+    class ___experimental_get_flash_urls_spec(typing_extensions.Protocol[SUPERSELF]):
+        def __call__(self, /) -> typing.Optional[list[str]]:
+            """URL of the flash service for the function."""
+            ...
+
+        async def aio(self, /) -> typing.Optional[list[str]]:
+            """URL of the flash service for the function."""
+            ...
+
+    _experimental_get_flash_urls: ___experimental_get_flash_urls_spec[typing_extensions.Self]
+
     @property
     def is_generator(self) -> bool:
         """mdmd:hidden"""
@@ -433,7 +445,7 @@ class Function(
 
     _call_generator: ___call_generator_spec[typing_extensions.Self]
 
-    class __remote_spec(typing_extensions.Protocol[ReturnType_INNER, P_INNER, SUPERSELF]):
+    class __remote_spec(typing_extensions.Protocol[P_INNER, ReturnType_INNER, SUPERSELF]):
         def __call__(self, /, *args: P_INNER.args, **kwargs: P_INNER.kwargs) -> ReturnType_INNER:
             """Calls the function remotely, executing it with the given arguments and returning the execution's result."""
             ...
@@ -442,7 +454,7 @@ class Function(
             """Calls the function remotely, executing it with the given arguments and returning the execution's result."""
             ...
 
-    remote: __remote_spec[modal._functions.ReturnType, modal._functions.P, typing_extensions.Self]
+    remote: __remote_spec[modal._functions.P, modal._functions.ReturnType, typing_extensions.Self]
 
     class __remote_gen_spec(typing_extensions.Protocol[SUPERSELF]):
         def __call__(self, /, *args, **kwargs) -> typing.Generator[typing.Any, None, None]:
@@ -469,7 +481,7 @@ class Function(
         """
         ...
 
-    class ___experimental_spawn_spec(typing_extensions.Protocol[ReturnType_INNER, P_INNER, SUPERSELF]):
+    class ___experimental_spawn_spec(typing_extensions.Protocol[P_INNER, ReturnType_INNER, SUPERSELF]):
         def __call__(self, /, *args: P_INNER.args, **kwargs: P_INNER.kwargs) -> FunctionCall[ReturnType_INNER]:
             """[Experimental] Calls the function with the given arguments, without waiting for the results.
 
@@ -493,7 +505,7 @@ class Function(
             ...
 
     _experimental_spawn: ___experimental_spawn_spec[
-        modal._functions.ReturnType, modal._functions.P, typing_extensions.Self
+        modal._functions.P, modal._functions.ReturnType, typing_extensions.Self
     ]
 
     class ___spawn_map_inner_spec(typing_extensions.Protocol[P_INNER, SUPERSELF]):
@@ -502,7 +514,7 @@ class Function(
 
     _spawn_map_inner: ___spawn_map_inner_spec[modal._functions.P, typing_extensions.Self]
 
-    class __spawn_spec(typing_extensions.Protocol[ReturnType_INNER, P_INNER, SUPERSELF]):
+    class __spawn_spec(typing_extensions.Protocol[P_INNER, ReturnType_INNER, SUPERSELF]):
         def __call__(self, /, *args: P_INNER.args, **kwargs: P_INNER.kwargs) -> FunctionCall[ReturnType_INNER]:
             """Calls the function with the given arguments, without waiting for the results.
 
@@ -523,7 +535,7 @@ class Function(
             """
             ...
 
-    spawn: __spawn_spec[modal._functions.ReturnType, modal._functions.P, typing_extensions.Self]
+    spawn: __spawn_spec[modal._functions.P, modal._functions.ReturnType, typing_extensions.Self]
 
     def get_raw_f(self) -> collections.abc.Callable[..., typing.Any]:
         """Return the inner Python object wrapped by this Modal Function."""

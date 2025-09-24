@@ -440,6 +440,11 @@ class ModalClientStub(object):
                 request_serializer=modal__proto_dot_api__pb2.FunctionUpdateSchedulingParamsRequest.SerializeToString,
                 response_deserializer=modal__proto_dot_api__pb2.FunctionUpdateSchedulingParamsResponse.FromString,
                 )
+        self.ImageDelete = channel.unary_unary(
+                '/modal.client.ModalClient/ImageDelete',
+                request_serializer=modal__proto_dot_api__pb2.ImageDeleteRequest.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                )
         self.ImageFromId = channel.unary_unary(
                 '/modal.client.ModalClient/ImageFromId',
                 request_serializer=modal__proto_dot_api__pb2.ImageFromIdRequest.SerializeToString,
@@ -724,6 +729,11 @@ class ModalClientStub(object):
                 '/modal.client.ModalClient/TaskCurrentInputs',
                 request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
                 response_deserializer=modal__proto_dot_api__pb2.TaskCurrentInputsResponse.FromString,
+                )
+        self.TaskGetAutoscalingMetrics = channel.unary_unary(
+                '/modal.client.ModalClient/TaskGetAutoscalingMetrics',
+                request_serializer=modal__proto_dot_api__pb2.TaskGetAutoscalingMetricsRequest.SerializeToString,
+                response_deserializer=modal__proto_dot_api__pb2.TaskGetAutoscalingMetricsResponse.FromString,
                 )
         self.TaskList = channel.unary_unary(
                 '/modal.client.ModalClient/TaskList',
@@ -1377,9 +1387,15 @@ class ModalClientServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def ImageFromId(self, request, context):
+    def ImageDelete(self, request, context):
         """Images
         """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ImageFromId(self, request, context):
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -1726,6 +1742,13 @@ class ModalClientServicer(object):
 
     def TaskCurrentInputs(self, request, context):
         """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def TaskGetAutoscalingMetrics(self, request, context):
+        """Used for flash autoscaling
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -2306,6 +2329,11 @@ def add_ModalClientServicer_to_server(servicer, server):
                     request_deserializer=modal__proto_dot_api__pb2.FunctionUpdateSchedulingParamsRequest.FromString,
                     response_serializer=modal__proto_dot_api__pb2.FunctionUpdateSchedulingParamsResponse.SerializeToString,
             ),
+            'ImageDelete': grpc.unary_unary_rpc_method_handler(
+                    servicer.ImageDelete,
+                    request_deserializer=modal__proto_dot_api__pb2.ImageDeleteRequest.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
             'ImageFromId': grpc.unary_unary_rpc_method_handler(
                     servicer.ImageFromId,
                     request_deserializer=modal__proto_dot_api__pb2.ImageFromIdRequest.FromString,
@@ -2590,6 +2618,11 @@ def add_ModalClientServicer_to_server(servicer, server):
                     servicer.TaskCurrentInputs,
                     request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                     response_serializer=modal__proto_dot_api__pb2.TaskCurrentInputsResponse.SerializeToString,
+            ),
+            'TaskGetAutoscalingMetrics': grpc.unary_unary_rpc_method_handler(
+                    servicer.TaskGetAutoscalingMetrics,
+                    request_deserializer=modal__proto_dot_api__pb2.TaskGetAutoscalingMetricsRequest.FromString,
+                    response_serializer=modal__proto_dot_api__pb2.TaskGetAutoscalingMetricsResponse.SerializeToString,
             ),
             'TaskList': grpc.unary_unary_rpc_method_handler(
                     servicer.TaskList,
@@ -4167,6 +4200,23 @@ class ModalClient(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
+    def ImageDelete(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/modal.client.ModalClient/ImageDelete',
+            modal__proto_dot_api__pb2.ImageDeleteRequest.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
     def ImageFromId(request,
             target,
             options=(),
@@ -5132,6 +5182,23 @@ class ModalClient(object):
         return grpc.experimental.unary_unary(request, target, '/modal.client.ModalClient/TaskCurrentInputs',
             google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             modal__proto_dot_api__pb2.TaskCurrentInputsResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def TaskGetAutoscalingMetrics(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/modal.client.ModalClient/TaskGetAutoscalingMetrics',
+            modal__proto_dot_api__pb2.TaskGetAutoscalingMetricsRequest.SerializeToString,
+            modal__proto_dot_api__pb2.TaskGetAutoscalingMetricsResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

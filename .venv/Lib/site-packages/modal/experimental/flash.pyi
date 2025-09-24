@@ -1,13 +1,26 @@
 import modal.client
+import modal_proto.api_pb2
+import subprocess
 import typing
 import typing_extensions
 
 class _FlashManager:
-    def __init__(self, client: modal.client._Client, port: int, health_check_url: typing.Optional[str] = None):
+    def __init__(
+        self,
+        client: modal.client._Client,
+        port: int,
+        process: typing.Optional[subprocess.Popen] = None,
+        health_check_url: typing.Optional[str] = None,
+    ):
         """Initialize self.  See help(type(self)) for accurate signature."""
         ...
 
+    async def check_port_connection(self, process: typing.Optional[subprocess.Popen], timeout: int = 10): ...
     async def _start(self): ...
+    async def _drain_container(self):
+        """Background task that checks if we've encountered too many failures and drains the container if so."""
+        ...
+
     async def _run_heartbeat(self, host: str, port: int): ...
     def get_container_url(self): ...
     async def stop(self): ...
@@ -16,13 +29,36 @@ class _FlashManager:
 SUPERSELF = typing.TypeVar("SUPERSELF", covariant=True)
 
 class FlashManager:
-    def __init__(self, client: modal.client.Client, port: int, health_check_url: typing.Optional[str] = None): ...
+    def __init__(
+        self,
+        client: modal.client.Client,
+        port: int,
+        process: typing.Optional[subprocess.Popen] = None,
+        health_check_url: typing.Optional[str] = None,
+    ): ...
+
+    class __check_port_connection_spec(typing_extensions.Protocol[SUPERSELF]):
+        def __call__(self, /, process: typing.Optional[subprocess.Popen], timeout: int = 10): ...
+        async def aio(self, /, process: typing.Optional[subprocess.Popen], timeout: int = 10): ...
+
+    check_port_connection: __check_port_connection_spec[typing_extensions.Self]
 
     class ___start_spec(typing_extensions.Protocol[SUPERSELF]):
         def __call__(self, /): ...
         async def aio(self, /): ...
 
     _start: ___start_spec[typing_extensions.Self]
+
+    class ___drain_container_spec(typing_extensions.Protocol[SUPERSELF]):
+        def __call__(self, /):
+            """Background task that checks if we've encountered too many failures and drains the container if so."""
+            ...
+
+        async def aio(self, /):
+            """Background task that checks if we've encountered too many failures and drains the container if so."""
+            ...
+
+    _drain_container: ___drain_container_spec[typing_extensions.Self]
 
     class ___run_heartbeat_spec(typing_extensions.Protocol[SUPERSELF]):
         def __call__(self, /, host: str, port: int): ...
@@ -45,17 +81,27 @@ class FlashManager:
     close: __close_spec[typing_extensions.Self]
 
 class __flash_forward_spec(typing_extensions.Protocol):
-    def __call__(self, /, port: int, health_check_url: typing.Optional[str] = None) -> FlashManager:
+    def __call__(
+        self,
+        /,
+        port: int,
+        process: typing.Optional[subprocess.Popen] = None,
+        health_check_url: typing.Optional[str] = None,
+    ) -> FlashManager:
         """Forward a port to the Modal Flash service, exposing that port as a stable web endpoint.
-
         This is a highly experimental method that can break or be removed at any time without warning.
         Do not use this method unless explicitly instructed to do so by Modal support.
         """
         ...
 
-    async def aio(self, /, port: int, health_check_url: typing.Optional[str] = None) -> FlashManager:
+    async def aio(
+        self,
+        /,
+        port: int,
+        process: typing.Optional[subprocess.Popen] = None,
+        health_check_url: typing.Optional[str] = None,
+    ) -> FlashManager:
         """Forward a port to the Modal Flash service, exposing that port as a stable web endpoint.
-
         This is a highly experimental method that can break or be removed at any time without warning.
         Do not use this method unless explicitly instructed to do so by Modal support.
         """
@@ -85,8 +131,15 @@ class _FlashPrometheusAutoscaler:
 
     async def start(self): ...
     async def _run_autoscaler_loop(self): ...
-    async def _compute_target_containers(self, current_replicas: int) -> int: ...
+    async def _compute_target_containers_internal(self, current_replicas: int) -> int:
+        """Gets internal metrics from container to autoscale up or down."""
+        ...
+
+    async def _compute_target_containers_prometheus(self, current_replicas: int) -> int: ...
     async def _get_metrics(self, url: str) -> typing.Optional[dict[str, list[typing.Any]]]: ...
+    async def _get_container_metrics(
+        self, container_id: str
+    ) -> typing.Optional[modal_proto.api_pb2.TaskGetAutoscalingMetricsResponse]: ...
     async def _get_all_containers(self): ...
     def _make_scaling_decision(
         self,
@@ -147,17 +200,38 @@ class FlashPrometheusAutoscaler:
 
     _run_autoscaler_loop: ___run_autoscaler_loop_spec[typing_extensions.Self]
 
-    class ___compute_target_containers_spec(typing_extensions.Protocol[SUPERSELF]):
+    class ___compute_target_containers_internal_spec(typing_extensions.Protocol[SUPERSELF]):
+        def __call__(self, /, current_replicas: int) -> int:
+            """Gets internal metrics from container to autoscale up or down."""
+            ...
+
+        async def aio(self, /, current_replicas: int) -> int:
+            """Gets internal metrics from container to autoscale up or down."""
+            ...
+
+    _compute_target_containers_internal: ___compute_target_containers_internal_spec[typing_extensions.Self]
+
+    class ___compute_target_containers_prometheus_spec(typing_extensions.Protocol[SUPERSELF]):
         def __call__(self, /, current_replicas: int) -> int: ...
         async def aio(self, /, current_replicas: int) -> int: ...
 
-    _compute_target_containers: ___compute_target_containers_spec[typing_extensions.Self]
+    _compute_target_containers_prometheus: ___compute_target_containers_prometheus_spec[typing_extensions.Self]
 
     class ___get_metrics_spec(typing_extensions.Protocol[SUPERSELF]):
         def __call__(self, /, url: str) -> typing.Optional[dict[str, list[typing.Any]]]: ...
         async def aio(self, /, url: str) -> typing.Optional[dict[str, list[typing.Any]]]: ...
 
     _get_metrics: ___get_metrics_spec[typing_extensions.Self]
+
+    class ___get_container_metrics_spec(typing_extensions.Protocol[SUPERSELF]):
+        def __call__(
+            self, /, container_id: str
+        ) -> typing.Optional[modal_proto.api_pb2.TaskGetAutoscalingMetricsResponse]: ...
+        async def aio(
+            self, /, container_id: str
+        ) -> typing.Optional[modal_proto.api_pb2.TaskGetAutoscalingMetricsResponse]: ...
+
+    _get_container_metrics: ___get_container_metrics_spec[typing_extensions.Self]
 
     class ___get_all_containers_spec(typing_extensions.Protocol[SUPERSELF]):
         def __call__(self, /): ...

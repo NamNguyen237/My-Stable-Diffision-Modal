@@ -29,7 +29,7 @@ class _Client:
     _snapshotted: bool
 
     def __init__(
-        self, server_url: str, client_type: int, credentials: typing.Optional[tuple[str, str]], version: str = "1.1.3"
+        self, server_url: str, client_type: int, credentials: typing.Optional[tuple[str, str]], version: str = "1.1.4"
     ):
         """mdmd:hidden
         The Modal client object is not intended to be instantiated directly by users.
@@ -156,7 +156,7 @@ class Client:
     _snapshotted: bool
 
     def __init__(
-        self, server_url: str, client_type: int, credentials: typing.Optional[tuple[str, str]], version: str = "1.1.3"
+        self, server_url: str, client_type: int, credentials: typing.Optional[tuple[str, str]], version: str = "1.1.4"
     ):
         """mdmd:hidden
         The Modal client object is not intended to be instantiated directly by users.

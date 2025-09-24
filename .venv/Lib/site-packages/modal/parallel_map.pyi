@@ -89,6 +89,7 @@ class InputPumper:
         input_queue: asyncio.queues.Queue,
         function: modal._functions._Function,
         function_call_id: str,
+        max_batch_size: int,
         map_items_manager: typing.Optional[_MapItemsManager] = None,
     ):
         """Initialize self.  See help(type(self)) for accurate signature."""

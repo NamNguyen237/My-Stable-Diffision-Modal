@@ -7,8 +7,6 @@ Utility functions that do not belong in a separate module.
 from __future__ import annotations
 
 import collections
-import re
-from string import whitespace
 from typing import TYPE_CHECKING, Any, NamedTuple
 
 from hpack.struct import HeaderTuple, NeverIndexedHeaderTuple
@@ -20,7 +18,6 @@ if TYPE_CHECKING:  # pragma: no cover
 
     from hpack.struct import Header, HeaderWeaklyTyped
 
-UPPER_RE = re.compile(b"[A-Z]")
 SIGIL = ord(b":")
 INFORMATIONAL_START = ord(b"1")
 
@@ -68,9 +65,6 @@ _RESPONSE_ONLY_HEADERS = frozenset([b":status"])
 # A Set of pseudo headers that are only valid if the method is
 # CONNECT, see RFC 8441 § 5
 _CONNECT_REQUEST_ONLY_HEADERS = frozenset([b":protocol"])
-
-
-_WHITESPACE = frozenset(map(ord, whitespace))
 
 
 def _secure_headers(headers: Iterable[Header],
@@ -201,13 +195,10 @@ def validate_headers(headers: Iterable[Header], hdr_validation_flags: HeaderVali
     # For example, we avoid tuple unpacking in loops because it represents a
     # fixed cost that we don't want to spend, instead indexing into the header
     # tuples.
+    headers = _reject_illegal_characters(
+        headers, hdr_validation_flags,
+    )
     headers = _reject_empty_header_names(
-        headers, hdr_validation_flags,
-    )
-    headers = _reject_uppercase_header_fields(
-        headers, hdr_validation_flags,
-    )
-    headers = _reject_surrounding_whitespace(
         headers, hdr_validation_flags,
     )
     headers = _reject_te(
@@ -225,6 +216,54 @@ def validate_headers(headers: Iterable[Header], hdr_validation_flags: HeaderVali
     return _check_path_header(headers, hdr_validation_flags)
 
 
+def _reject_illegal_characters(headers: Iterable[Header],
+                               hdr_validation_flags: HeaderValidationFlags) -> Generator[Header, None, None]:
+    """
+    Raises a ProtocolError if any header names or values contain illegal characters.
+    See <https://www.rfc-editor.org/rfc/rfc9113.html#section-8.2.1>.
+    """
+    for header in headers:
+        # > A field name MUST NOT contain characters in the ranges 0x00-0x20, 0x41-0x5a,
+        # > or 0x7f-0xff (all ranges inclusive).
+        for c in header[0]:
+            if 0x41 <= c <= 0x5a:
+                msg = f"Received uppercase header name {header[0]!r}."
+                raise ProtocolError(msg)
+            if c <= 0x20 or c >= 0x7f:
+                msg = f"Illegal character '{chr(c)}' in header name: {header[0]!r}"
+                raise ProtocolError(msg)
+
+        # > With the exception of pseudo-header fields (Section 8.3), which have a name
+        # > that starts with a single colon, field names MUST NOT include a colon (ASCII
+        # > COLON, 0x3a).
+        if header[0].find(b":", 1) != -1:
+            msg = f"Illegal character ':' in header name: {header[0]!r}"
+            raise ProtocolError(msg)
+
+        # For compatibility with RFC 7230 header fields, we need to allow the field
+        # value to be an empty string. This is ludicrous, but technically allowed.
+        if field_value := header[1]:
+
+            # > A field value MUST NOT contain the zero value (ASCII NUL, 0x00), line feed
+            # > (ASCII LF, 0x0a), or carriage return (ASCII CR, 0x0d) at any position.
+            for c in field_value:
+                if c == 0 or c == 0x0a or c == 0x0d:  # noqa: PLR1714
+                    msg = f"Illegal character '{chr(c)}' in header value: {field_value!r}"
+                    raise ProtocolError(msg)
+
+            # > A field value MUST NOT start or end with an ASCII whitespace character
+            # > (ASCII SP or HTAB, 0x20 or 0x09).
+            if (
+                field_value[0] == 0x20 or
+                field_value[0] == 0x09 or
+                field_value[-1] == 0x20 or
+                field_value[-1] == 0x09
+            ):
+                msg = f"Received header value surrounded by whitespace {field_value!r}"
+                raise ProtocolError(msg)
+
+        yield header
+
 
 def _reject_empty_header_names(headers: Iterable[Header],
                                hdr_validation_flags: HeaderValidationFlags) -> Generator[Header, None, None]:
@@ -237,41 +276,6 @@ def _reject_empty_header_names(headers: Iterable[Header],
     for header in headers:
         if len(header[0]) == 0:
             msg = "Received header name with zero length."
-            raise ProtocolError(msg)
-        yield header
-
-
-def _reject_uppercase_header_fields(headers: Iterable[Header],
-                                    hdr_validation_flags: HeaderValidationFlags) -> Generator[Header, None, None]:
-    """
-    Raises a ProtocolError if any uppercase character is found in a header
-    block.
-    """
-    for header in headers:
-        if UPPER_RE.search(header[0]):
-            msg = f"Received uppercase header name {header[0]!r}."
-            raise ProtocolError(msg)
-        yield header
-
-
-def _reject_surrounding_whitespace(headers: Iterable[Header],
-                                   hdr_validation_flags: HeaderValidationFlags) -> Generator[Header, None, None]:
-    """
-    Raises a ProtocolError if any header name or value is surrounded by
-    whitespace characters.
-    """
-    # For compatibility with RFC 7230 header fields, we need to allow the field
-    # value to be an empty string. This is ludicrous, but technically allowed.
-    # The field name may not be empty, though, so we can safely assume that it
-    # must have at least one character in it and throw exceptions if it
-    # doesn't.
-    for header in headers:
-        if header[0][0] in _WHITESPACE or header[0][-1] in _WHITESPACE:
-            msg = f"Received header name surrounded by whitespace {header[0]!r}"
-            raise ProtocolError(msg)
-        if header[1] and ((header[1][0] in _WHITESPACE) or
-           (header[1][-1] in _WHITESPACE)):
-            msg = f"Received header value surrounded by whitespace {header[1]!r}"
             raise ProtocolError(msg)
         yield header
 

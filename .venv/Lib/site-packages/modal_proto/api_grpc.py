@@ -359,6 +359,10 @@ class ModalClientBase(abc.ABC):
         pass
 
     @abc.abstractmethod
+    async def ImageDelete(self, stream: 'grpclib.server.Stream[modal_proto.api_pb2.ImageDeleteRequest, google.protobuf.empty_pb2.Empty]') -> None:
+        pass
+
+    @abc.abstractmethod
     async def ImageFromId(self, stream: 'grpclib.server.Stream[modal_proto.api_pb2.ImageFromIdRequest, modal_proto.api_pb2.ImageFromIdResponse]') -> None:
         pass
 
@@ -584,6 +588,10 @@ class ModalClientBase(abc.ABC):
 
     @abc.abstractmethod
     async def TaskCurrentInputs(self, stream: 'grpclib.server.Stream[google.protobuf.empty_pb2.Empty, modal_proto.api_pb2.TaskCurrentInputsResponse]') -> None:
+        pass
+
+    @abc.abstractmethod
+    async def TaskGetAutoscalingMetrics(self, stream: 'grpclib.server.Stream[modal_proto.api_pb2.TaskGetAutoscalingMetricsRequest, modal_proto.api_pb2.TaskGetAutoscalingMetricsResponse]') -> None:
         pass
 
     @abc.abstractmethod
@@ -1194,6 +1202,12 @@ class ModalClientBase(abc.ABC):
                 modal_proto.api_pb2.FunctionUpdateSchedulingParamsRequest,
                 modal_proto.api_pb2.FunctionUpdateSchedulingParamsResponse,
             ),
+            '/modal.client.ModalClient/ImageDelete': grpclib.const.Handler(
+                self.ImageDelete,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                modal_proto.api_pb2.ImageDeleteRequest,
+                google.protobuf.empty_pb2.Empty,
+            ),
             '/modal.client.ModalClient/ImageFromId': grpclib.const.Handler(
                 self.ImageFromId,
                 grpclib.const.Cardinality.UNARY_UNARY,
@@ -1535,6 +1549,12 @@ class ModalClientBase(abc.ABC):
                 grpclib.const.Cardinality.UNARY_UNARY,
                 google.protobuf.empty_pb2.Empty,
                 modal_proto.api_pb2.TaskCurrentInputsResponse,
+            ),
+            '/modal.client.ModalClient/TaskGetAutoscalingMetrics': grpclib.const.Handler(
+                self.TaskGetAutoscalingMetrics,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                modal_proto.api_pb2.TaskGetAutoscalingMetricsRequest,
+                modal_proto.api_pb2.TaskGetAutoscalingMetricsResponse,
             ),
             '/modal.client.ModalClient/TaskList': grpclib.const.Handler(
                 self.TaskList,
@@ -2196,6 +2216,12 @@ class ModalClientStub:
             modal_proto.api_pb2.FunctionUpdateSchedulingParamsRequest,
             modal_proto.api_pb2.FunctionUpdateSchedulingParamsResponse,
         )
+        self.ImageDelete = grpclib.client.UnaryUnaryMethod(
+            channel,
+            '/modal.client.ModalClient/ImageDelete',
+            modal_proto.api_pb2.ImageDeleteRequest,
+            google.protobuf.empty_pb2.Empty,
+        )
         self.ImageFromId = grpclib.client.UnaryUnaryMethod(
             channel,
             '/modal.client.ModalClient/ImageFromId',
@@ -2537,6 +2563,12 @@ class ModalClientStub:
             '/modal.client.ModalClient/TaskCurrentInputs',
             google.protobuf.empty_pb2.Empty,
             modal_proto.api_pb2.TaskCurrentInputsResponse,
+        )
+        self.TaskGetAutoscalingMetrics = grpclib.client.UnaryUnaryMethod(
+            channel,
+            '/modal.client.ModalClient/TaskGetAutoscalingMetrics',
+            modal_proto.api_pb2.TaskGetAutoscalingMetricsRequest,
+            modal_proto.api_pb2.TaskGetAutoscalingMetricsResponse,
         )
         self.TaskList = grpclib.client.UnaryUnaryMethod(
             channel,

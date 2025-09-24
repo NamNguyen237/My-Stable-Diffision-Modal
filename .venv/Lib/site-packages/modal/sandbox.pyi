@@ -26,6 +26,7 @@ import typing
 import typing_extensions
 
 def _validate_exec_args(args: collections.abc.Sequence[str]) -> None: ...
+def _warn_if_invalid_name(name: str) -> None: ...
 
 class DefaultSandboxNameOverride(str):
     """A singleton class that represents the default sandbox name override.
@@ -60,6 +61,7 @@ class _Sandbox(modal._object._Object):
         secrets: collections.abc.Sequence[modal.secret._Secret],
         name: typing.Optional[str] = None,
         timeout: int = 300,
+        idle_timeout: typing.Optional[int] = None,
         workdir: typing.Optional[str] = None,
         gpu: typing.Union[None, str, modal.gpu._GPUConfig] = None,
         cloud: typing.Optional[str] = None,
@@ -96,6 +98,7 @@ class _Sandbox(modal._object._Object):
         secrets: collections.abc.Sequence[modal.secret._Secret] = (),
         network_file_systems: dict[typing.Union[str, os.PathLike], modal.network_file_system._NetworkFileSystem] = {},
         timeout: int = 300,
+        idle_timeout: typing.Optional[int] = None,
         workdir: typing.Optional[str] = None,
         gpu: typing.Union[None, str, modal.gpu._GPUConfig] = None,
         cloud: typing.Optional[str] = None,
@@ -145,6 +148,7 @@ class _Sandbox(modal._object._Object):
         mounts: collections.abc.Sequence[modal.mount._Mount] = (),
         network_file_systems: dict[typing.Union[str, os.PathLike], modal.network_file_system._NetworkFileSystem] = {},
         timeout: int = 300,
+        idle_timeout: typing.Optional[int] = None,
         workdir: typing.Optional[str] = None,
         gpu: typing.Union[None, str, modal.gpu._GPUConfig] = None,
         cloud: typing.Optional[str] = None,
@@ -177,7 +181,7 @@ class _Sandbox(modal._object._Object):
         environment_name: typing.Optional[str] = None,
         client: typing.Optional[modal.client._Client] = None,
     ) -> _Sandbox:
-        """Get a running Sandbox by name from the given app.
+        """Get a running Sandbox by name from a deployed App.
 
         Raises a modal.exception.NotFoundError if no running sandbox is found with the given name.
         A Sandbox's name is the `name` argument passed to `Sandbox.create`.
@@ -370,6 +374,7 @@ class Sandbox(modal.object.Object):
         secrets: collections.abc.Sequence[modal.secret.Secret],
         name: typing.Optional[str] = None,
         timeout: int = 300,
+        idle_timeout: typing.Optional[int] = None,
         workdir: typing.Optional[str] = None,
         gpu: typing.Union[None, str, modal.gpu._GPUConfig] = None,
         cloud: typing.Optional[str] = None,
@@ -409,6 +414,7 @@ class Sandbox(modal.object.Object):
                 typing.Union[str, os.PathLike], modal.network_file_system.NetworkFileSystem
             ] = {},
             timeout: int = 300,
+            idle_timeout: typing.Optional[int] = None,
             workdir: typing.Optional[str] = None,
             gpu: typing.Union[None, str, modal.gpu._GPUConfig] = None,
             cloud: typing.Optional[str] = None,
@@ -460,6 +466,7 @@ class Sandbox(modal.object.Object):
                 typing.Union[str, os.PathLike], modal.network_file_system.NetworkFileSystem
             ] = {},
             timeout: int = 300,
+            idle_timeout: typing.Optional[int] = None,
             workdir: typing.Optional[str] = None,
             gpu: typing.Union[None, str, modal.gpu._GPUConfig] = None,
             cloud: typing.Optional[str] = None,
@@ -515,6 +522,7 @@ class Sandbox(modal.object.Object):
                 typing.Union[str, os.PathLike], modal.network_file_system.NetworkFileSystem
             ] = {},
             timeout: int = 300,
+            idle_timeout: typing.Optional[int] = None,
             workdir: typing.Optional[str] = None,
             gpu: typing.Union[None, str, modal.gpu._GPUConfig] = None,
             cloud: typing.Optional[str] = None,
@@ -551,6 +559,7 @@ class Sandbox(modal.object.Object):
                 typing.Union[str, os.PathLike], modal.network_file_system.NetworkFileSystem
             ] = {},
             timeout: int = 300,
+            idle_timeout: typing.Optional[int] = None,
             workdir: typing.Optional[str] = None,
             gpu: typing.Union[None, str, modal.gpu._GPUConfig] = None,
             cloud: typing.Optional[str] = None,
@@ -589,7 +598,7 @@ class Sandbox(modal.object.Object):
             environment_name: typing.Optional[str] = None,
             client: typing.Optional[modal.client.Client] = None,
         ) -> Sandbox:
-            """Get a running Sandbox by name from the given app.
+            """Get a running Sandbox by name from a deployed App.
 
             Raises a modal.exception.NotFoundError if no running sandbox is found with the given name.
             A Sandbox's name is the `name` argument passed to `Sandbox.create`.
@@ -605,7 +614,7 @@ class Sandbox(modal.object.Object):
             environment_name: typing.Optional[str] = None,
             client: typing.Optional[modal.client.Client] = None,
         ) -> Sandbox:
-            """Get a running Sandbox by name from the given app.
+            """Get a running Sandbox by name from a deployed App.
 
             Raises a modal.exception.NotFoundError if no running sandbox is found with the given name.
             A Sandbox's name is the `name` argument passed to `Sandbox.create`.
