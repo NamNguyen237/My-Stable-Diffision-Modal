@@ -1,4 +1,4 @@
-string =input('enter danbooru tags: ')
+string = input('enter danbooru tags: ')
 result = string.replace("original ","")
 result = string.replace("corrupted_twitter_file ","")
 result = string.replace("absurdres ","")
@@ -70,6 +70,15 @@ result = result.replace("variant_set ","")
 
 result = result.replace("sound_effects ","")
 result = result.replace("speech_bubble ","")
+
+#r34 tags
+result = result.replace("tagme ","")
+result = result.replace("mp4 ","")
+result = result.replace("longer_than_30_seconds ","")
+result = result.replace("video ","")
+result = result.replace("sound ","")
+
+
 
 #result = result.replace(" ",", ").replace("_"," ").replace("(","\(").replace(")","\)")
 result = result.replace(" ",", ").replace("_"," ").replace("(", r"\(").replace(")", r"\)")
