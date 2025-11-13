@@ -329,7 +329,10 @@ def batched(
     ...
 
 def concurrent(
-    _warn_parentheses_missing=None, *, max_inputs: int, target_inputs: typing.Optional[int] = None
+    _warn_parentheses_missing=None,
+    *,
+    max_inputs: typing.Optional[int] = None,
+    target_inputs: typing.Optional[int] = None,
 ) -> collections.abc.Callable[
     [
         typing.Union[

@@ -12,6 +12,7 @@ result = result.replace("announcement_celebration ","")
 result = result.replace("guest_art", "")
 result = result.replace("second-party_source ","")
 result = result.replace("copyright_name ","")
+result = result.replace("copyright_notice ","")
 
 result = result.replace("comiket_104 ","")
 result = result.replace("comiket_105 ","")
@@ -25,12 +26,14 @@ result = result.replace("twitter_username ","")
 result = result.replace("twitter_username","")
 result = result.replace("signature ","")
 
+
 result = result.replace("md5_mismatch ","")
 result = result.replace("animated ","")
 result = result.replace("video ","")
 result = result.replace("patreon_logo ","")
 result = result.replace("patreon_username ","")
 result = result.replace("artist_name ","")
+result = result.replace("cover_image ","")
 
 result = result.replace("translation_request ","")
 result = result.replace("check_translation ","")

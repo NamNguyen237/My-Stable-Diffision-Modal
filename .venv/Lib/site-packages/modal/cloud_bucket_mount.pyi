@@ -99,6 +99,7 @@ class _CloudBucketMount:
     oidc_auth_role_arn: typing.Optional[str]
     read_only: bool
     requester_pays: bool
+    force_path_style: bool
 
     def __init__(
         self,
@@ -109,6 +110,7 @@ class _CloudBucketMount:
         oidc_auth_role_arn: typing.Optional[str] = None,
         read_only: bool = False,
         requester_pays: bool = False,
+        force_path_style: bool = False,
     ) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
         ...
@@ -122,7 +124,7 @@ class _CloudBucketMount:
         ...
 
 def cloud_bucket_mounts_to_proto(
-    mounts: list[tuple[str, _CloudBucketMount]],
+    mounts: typing.Sequence[tuple[str, _CloudBucketMount]],
 ) -> list[modal_proto.api_pb2.CloudBucketMount]:
     """Helper function to convert `CloudBucketMount` to a list of protobufs that can be passed to the server."""
     ...
@@ -224,6 +226,7 @@ class CloudBucketMount:
     oidc_auth_role_arn: typing.Optional[str]
     read_only: bool
     requester_pays: bool
+    force_path_style: bool
 
     def __init__(
         self,
@@ -234,6 +237,7 @@ class CloudBucketMount:
         oidc_auth_role_arn: typing.Optional[str] = None,
         read_only: bool = False,
         requester_pays: bool = False,
+        force_path_style: bool = False,
     ) -> None: ...
     def __repr__(self): ...
     def __eq__(self, other): ...

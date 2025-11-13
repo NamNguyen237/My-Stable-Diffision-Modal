@@ -22,62 +22,15 @@ image = (  # build up a Modal Image to run ComfyUI, step by step
     )
 )
 
-#checkpoints
-image = (
-    image.run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1190596?type=Model&format=SafeTensor&size=full&fp=bf16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/checkpoints/NoobAI-XL-V-Pred-1.0-Version.safetensors\""
-    )
-    .run_commands(
-        "wget -c \"https://civitai.com/api/download/models/889818?type=Model&format=SafeTensor&size=pruned&fp=fp16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/checkpoints/Illustrious-XL-v0.1.safetensors\""
-    )
-    .run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1130140?type=Model&format=SafeTensor&size=pruned&fp=fp16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/checkpoints/RouWei-0.6.1-vpred.safetensors\""
-    )
-)
-image = (
-    image.run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1140829?type=Model&format=SafeTensor&size=full&fp=bf16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/checkpoints//NoobAI-XL-V-Pred-0.75S-Version.safetensors\""
-    )
-)
-#loras
-image = (
-    image.run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1312224?type=Model&format=SafeTensor&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/AI styles dump AIO-noob-vpred1.0_v5.safetensors\""
-    )
-    .run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1290145?type=Model&format=SafeTensor&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/Hara ID 21.safetensors\""
-    )
-    .run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1265180?type=Model&format=SafeTensor&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/Pixel Art LoRA noob vpred 1.0 v2.safetensors\""
-    )
-)
+
+
 #image = (
 #    image.run_commands(
 #        "wget -c \"https://civitai.com/api/download/models/1360303?type=Model&format=SafeTensor&size=pruned&fp=fp16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"
 #    )
 #)
-image = (
-    image.run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1187614?type=Model&format=SafeTensor&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/Miside(米塔)|NoobAI-XL eps v1.1.safetensors\"")
-    .run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1167067?type=Model&format=SafeTensor&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/Miside(米塔)|NoobAI-XL v-pred 0.75s.safetensors\"")
-    .run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1173678?type=Model&format=SafeTensor&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/Miside(米塔)|NoobAI-XL v-pred 0.75s new.safetensors\"")
-)
-image = (
-    image.run_commands(  # download a custom node
-        "comfy node install image-resize-comfyui"
-    )
-    .run_commands(
-        "comfy node install https://github.com/regiellis/ComfyUI-EasyNoobai.git"
-    )
-    .run_commands(
-        "comfy node install efficiency-nodes-comfyui"
-    )
-    .run_commands(
-        "comfy node install https://github.com/alexopus/ComfyUI-Image-Saver.git"
-    )
-)
+
+
 
 #load local loras
 image = (
@@ -86,10 +39,6 @@ image = (
     )   
 )
 
-#(re)load workflows:
-#image = (
-#    image.add_local_dir("./WORKFLOWS/", remote_path="/root/comfy/ComfyUI/user/default/workflows")
-#)
 app = modal.App(name="nams-dev-comfyui", image=image)
 comfy_checkpoints = modal.Volume.from_name("comfy_checkpoints")
 comfy_loras = modal.Volume.from_name("comfy_loras")

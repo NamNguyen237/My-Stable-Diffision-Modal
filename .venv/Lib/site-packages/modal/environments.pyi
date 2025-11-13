@@ -45,10 +45,8 @@ class _Environment(modal._object._Object):
 
     def _hydrate_metadata(self, metadata: google.protobuf.message.Message): ...
     @staticmethod
-    def from_name(name: str, *, create_if_missing: bool = False): ...
-    @staticmethod
-    async def lookup(
-        name: str, client: typing.Optional[modal.client._Client] = None, create_if_missing: bool = False
+    def from_name(
+        name: str, *, create_if_missing: bool = False, client: typing.Optional[modal.client._Client] = None
     ): ...
 
 class Environment(modal.object.Object):
@@ -60,17 +58,9 @@ class Environment(modal.object.Object):
 
     def _hydrate_metadata(self, metadata: google.protobuf.message.Message): ...
     @staticmethod
-    def from_name(name: str, *, create_if_missing: bool = False): ...
-
-    class __lookup_spec(typing_extensions.Protocol):
-        def __call__(
-            self, /, name: str, client: typing.Optional[modal.client.Client] = None, create_if_missing: bool = False
-        ): ...
-        async def aio(
-            self, /, name: str, client: typing.Optional[modal.client.Client] = None, create_if_missing: bool = False
-        ): ...
-
-    lookup: __lookup_spec
+    def from_name(
+        name: str, *, create_if_missing: bool = False, client: typing.Optional[modal.client.Client] = None
+    ): ...
 
 async def _get_environment_cached(name: str, client: modal.client._Client) -> _Environment: ...
 

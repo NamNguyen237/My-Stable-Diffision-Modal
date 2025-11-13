@@ -5,6 +5,7 @@ import collections.abc
 import enum
 import modal._functions
 import modal._utils.async_utils
+import modal._utils.grpc_utils
 import modal.client
 import modal.functions
 import modal.retries
@@ -96,15 +97,8 @@ class InputPumper:
         ...
 
     def pump_inputs(self): ...
-    async def _send_inputs(
-        self,
-        fn: modal.client.UnaryUnaryWrapper,
-        request: typing.Union[
-            modal_proto.api_pb2.FunctionPutInputsRequest, modal_proto.api_pb2.FunctionRetryInputsRequest
-        ],
-    ) -> typing.Union[
-        modal_proto.api_pb2.FunctionPutInputsResponse, modal_proto.api_pb2.FunctionRetryInputsResponse
-    ]: ...
+    @property
+    def _function_inputs_retry(self) -> modal._utils.grpc_utils.Retry: ...
 
 class SyncInputPumper(InputPumper):
     """Reads inputs from a queue of FunctionPutInputsItems, and sends them to the server."""

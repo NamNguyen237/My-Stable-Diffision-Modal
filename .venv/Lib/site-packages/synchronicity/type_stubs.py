@@ -15,6 +15,7 @@ import importlib
 import inspect
 import sys
 import textwrap
+import types
 import typing
 import warnings
 from logging import getLogger
@@ -58,6 +59,11 @@ def safe_get_module(obj: typing.Any) -> typing.Optional[str]:
     if obj.__module__ in ("_contextvars", "_asyncio"):
         return obj.__module__[1:]  # strip leading underscore
 
+    if obj.__module__ == "pathlib._local":
+        # in newer versions of Python (known: 3.13)
+        # some pathlib classes live in pathlib._local
+        return "pathlib"
+
     try:
         if (obj.__module__, obj.__name__) == ("typing", "Concatenate"):
             # typing_extensions.Concatenate forwards typing.Concatenate if
@@ -71,7 +77,7 @@ def safe_get_module(obj: typing.Any) -> typing.Optional[str]:
 
 
 def generic_copy_with_args(specific_type, new_args):
-    origin = typing_extensions.get_origin(specific_type)
+    origin = get_origin(specific_type)
     if hasattr(specific_type, "copy_with") and origin not in (typing.Callable, collections.abc.Callable):
         # not strictly necessary, but this makes the type stubs
         # preserve generic alias names when possible, e.g. using `typing.Iterator`
@@ -96,7 +102,7 @@ def add_prefix_arg(arg_name, remove_args=0):
 
 def replace_type_vars(replacement_dict: typing.Dict[type, type]):
     def _replace_type_vars_rec(tp: typing.Type[typing.Any]):
-        origin = getattr(tp, "__origin__", None)
+        origin = get_origin(tp)
         args = safe_get_args(tp)
 
         if isinstance(tp, (typing_extensions.ParamSpecArgs, typing_extensions.ParamSpecKwargs)):
@@ -126,8 +132,21 @@ def replace_type_vars(replacement_dict: typing.Dict[type, type]):
     return _replace_type_vars_in_sig
 
 
+def get_origin(annotation: type):
+    if sys.version_info < (3, 10):
+        # typing.get_origin returns None for ParamSpecArgs on <= Python3.9
+        return getattr(annotation, "__origin__", None)
+
+    origin = typing.get_origin(annotation)
+    if origin is types.UnionType:
+        # origin would be types.UnionType for unions, but it's more practical to use typing.Union
+        # since that can be used to create new types, e.g. typing.Union[...]
+        return typing.Union
+    return origin
+
+
 def _get_type_vars(typ, synchronizer, home_module):
-    origin = getattr(typ, "__origin__", None)  # typing.get_origin returns None for ParamSpecArgs on <=Python3.9
+    origin = get_origin(typ)
     ret = set()
     if isinstance(typ, typing.TypeVar):
         # check if it's translated (due to bounds= attributes etc.)
@@ -277,7 +296,7 @@ class StubEmitter:
         for b in self._get_translated_class_bases(cls):
             if b is not object:
                 bases.append(self._formatannotation(b))
-            if getattr(b, "__origin__", None) == typing.Generic:
+            if get_origin(b) == typing.Generic:
                 generic_type_vars |= {a for a in b.__args__}
 
         bases_str = "" if not bases else "(" + ", ".join(bases) + ")"
@@ -548,15 +567,17 @@ class StubEmitter:
 
     def _register_imports(self, type_annotation):
         # recursively makes sure a type and any of its type arguments (for generics) are imported
-        origin = getattr(type_annotation, "__origin__", None)
+        origin = get_origin(type_annotation)
+        args = getattr(type_annotation, "__args__", ())
+
         if origin is None:
-            # "scalar" base type
+            # "scalar" base type (not a generic, not a PEP 604 union)
             if hasattr(type_annotation, "__module__"):
                 self._ensure_import(type_annotation)
             return
 
         self._ensure_import(type_annotation)  # import the generic itself's module
-        for arg in getattr(type_annotation, "__args__", ()):
+        for arg in args:
             self._register_imports(arg)
 
     def _translate_global_annotation(self, annotation, source_class_or_function):
@@ -620,7 +641,7 @@ class StubEmitter:
         home_module: typing.Optional[str] = None,
     ):
         # recursively map a nested type annotation to match the output interface
-        origin = getattr(type_annotation, "__origin__", None)
+        origin = get_origin(type_annotation)
         args = safe_get_args(type_annotation)
 
         if isinstance(type_annotation, (typing_extensions.ParamSpecArgs, typing_extensions.ParamSpecKwargs)):
@@ -761,7 +782,7 @@ class StubEmitter:
         * Doesn't omit `typing.`-module from qualified imports in type names
         * ignores base_module (uses self.target_module instead)
         """
-        origin = getattr(annotation, "__origin__", None)
+        origin = get_origin(annotation)
 
         # For forward refs from modules that cannot be evaluated at runtime
         # but can be used freely in stub files, import the module and return the

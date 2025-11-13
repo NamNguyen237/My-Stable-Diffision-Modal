@@ -1,12 +1,11 @@
 import collections.abc
+import modal.app
 import modal.cli.import_refs
 import multiprocessing.context
 import multiprocessing.synchronize
 import synchronicity.combined_types
 import typing
 import typing_extensions
-
-_App = typing.TypeVar("_App")
 
 def _run_serve(
     import_ref: modal.cli.import_refs.ImportRef,
@@ -27,31 +26,31 @@ async def _run_watch_loop(
     environment_name: str,
 ): ...
 def _serve_app(
-    app: _App,
+    app: modal.app._App,
     import_ref: modal.cli.import_refs.ImportRef,
     *,
     _watcher: typing.Optional[collections.abc.AsyncGenerator[set[str], None]] = None,
     environment_name: typing.Optional[str] = None,
-) -> typing.AsyncContextManager[_App]: ...
+) -> typing.AsyncContextManager[modal.app._App]: ...
 
 class __serve_app_spec(typing_extensions.Protocol):
     def __call__(
         self,
         /,
-        app: _App,
+        app: modal.app.App,
         import_ref: modal.cli.import_refs.ImportRef,
         *,
         _watcher: typing.Optional[typing.Generator[set[str], None, None]] = None,
         environment_name: typing.Optional[str] = None,
-    ) -> synchronicity.combined_types.AsyncAndBlockingContextManager[_App]: ...
+    ) -> synchronicity.combined_types.AsyncAndBlockingContextManager[modal.app.App]: ...
     def aio(
         self,
         /,
-        app: _App,
+        app: modal.app.App,
         import_ref: modal.cli.import_refs.ImportRef,
         *,
         _watcher: typing.Optional[collections.abc.AsyncGenerator[set[str], None]] = None,
         environment_name: typing.Optional[str] = None,
-    ) -> typing.AsyncContextManager[_App]: ...
+    ) -> typing.AsyncContextManager[modal.app.App]: ...
 
 serve_app: __serve_app_spec
