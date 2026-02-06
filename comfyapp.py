@@ -85,12 +85,21 @@ image = (
     .run_commands(
         "comfy node install https://github.com/alexopus/ComfyUI-Image-Saver.git"
     )
+    .run_commands(
+        "comfy node install https://github.com/jtydhr88/ComfyUI-HY-Motion1"
+    )
 )
 
 #load local loras
 image = (
     image.add_local_dir("./LORAS/", 
         remote_path="/root/comfy/ComfyUI/models/loras"               
+    )   
+)
+#load local controlnet
+image = (
+    image.add_local_dir("./CONTROLNET/", 
+        remote_path="/root/comfy/ComfyUI/models/controlnet"               
     )   
 )
 
