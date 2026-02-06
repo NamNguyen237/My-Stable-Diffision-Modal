@@ -9,56 +9,59 @@ import os
 comfy_checkpoints = modal.Volume.from_name("comfy_checkpoints")
 comfy_loras = modal.Volume.from_name("comfy_loras")
 comfy_custom_nodes = modal.Volume.from_name("comfy_custom_nodes")
+comfy_controlnet = modal.Volume.from_name("comfy_controlnet")
+
 
 # Utility
-def sha256_bytes(data):
-    return hashlib.sha256(data).hexdigest()
-
-def file_exists_and_same(volume, path, new_data):
+def file_exists(volume, path):
     try:
-        if path not in volume.list_files():
-            return False
-        old_data = volume.read(path)
-        return sha256_bytes(old_data) == sha256_bytes(new_data)
+        # list_files returns an iterator of FileEntry objects, we check if path is in the names
+        # Note: listing large volumes can be slow, but it's safer than reading file content
+        for entry in volume.list_files():
+            if entry.path == path:
+                return True
+        return False
     except:
         return False
 
-def write_if_new(volume, path, data):
-    if file_exists_and_same(volume, path, data):
-        print(f"✅ '{path}' đã có và giống nhau, bỏ qua.")
-    else:
-        volume.write(path, data)
-        print(f"✅ Đã ghi '{path}' vào volume.")
-
-# Streaming download
+# Streaming download (buffers in memory then writes once - atomic)
 def stream_download_to_volume(url, volume, filename):
+    if file_exists(volume, filename):
+        print(f"⏩ '{filename}' đã tồn tại, bỏ qua.")
+        return
+
     try:
-        print(f"⬇️ Đang tải '{filename}' bằng streaming...")
+        print(f"⬇️ Đang tải '{filename}' (streaming vào RAM)...")
         with requests.get(url, stream=True) as response:
             response.raise_for_status()
             buffer = bytearray()
-            for chunk in response.iter_content(chunk_size=8192):
+            downloaded = 0
+            for chunk in response.iter_content(chunk_size=1024*1024): # 1MB chunks
                 if chunk:
                     buffer.extend(chunk)
+                    downloaded += len(chunk)
+                    if downloaded % (100 * 1024 * 1024) == 0: # Print every 100MB
+                        print(f"   ...đã tải {downloaded // (1024*1024)} MB")
+            
+            print(f"💾 Đang ghi '{filename}' vào volume (Warning: file lớn có thể mất vài giây/phút)...")
             volume.write(filename, bytes(buffer))
-            print(f"✅ Đã ghi '{filename}' vào volume.")
+            print(f"✅ Đã ghi '{filename}' thành công.")
             del buffer
     except Exception as e:
         print(f"❌ Lỗi khi tải '{filename}': {e}")
 
 # Core functions
-def download_files_to_volume(urls, names, volume, use_stream=False):
+def download_files_to_volume(urls, names, volume, use_stream=True): # Default to True for safer large file handling
     for url, name in zip(urls, names):
+        # Auto-append Civitai token if missing
+        if "civitai.com" in url and "token=" not in url:
+             url += "&token=403d7e6612cfb89e27559bedd1bb2dbb"
+        
         try:
-            if use_stream:
-                stream_download_to_volume(url, volume, name)
-            else:
-                print(f"⬇️ Đang tải '{name}'...")
-                response = requests.get(url)
-                response.raise_for_status()
-                write_if_new(volume, name, response.content)
+            stream_download_to_volume(url, volume, name)
         except Exception as e:
-            print(f"❌ Lỗi tải '{name}': {e}")
+            print(f"❌ Lỗi xử lý '{name}': {e}")
+
 
 def extract_zip_to_volume(zip_bytes, volume, folder_name):
     try:
