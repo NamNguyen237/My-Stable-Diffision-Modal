@@ -22,53 +22,20 @@ image = (  # build up a Modal Image to run ComfyUI, step by step
 )
 
 #checkpoints
-image = (
-    image.run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1190596?type=Model&format=SafeTensor&size=full&fp=bf16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/checkpoints/NoobAI-XL-V-Pred-1.0-Version.safetensors\""
-    )
-    .run_commands(
-        "wget -c \"https://civitai.com/api/download/models/889818?type=Model&format=SafeTensor&size=pruned&fp=fp16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/checkpoints/Illustrious-XL-v0.1.safetensors\""
-    )
-    .run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1130140?type=Model&format=SafeTensor&size=pruned&fp=fp16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/checkpoints/RouWei-0.6.1-vpred.safetensors\""
-    )
-)
-image = (
-    image.run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1140829?type=Model&format=SafeTensor&size=full&fp=bf16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/checkpoints//NoobAI-XL-V-Pred-0.75S-Version.safetensors\""
-    )
-)
-#loras
-image = (
-    image.run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1312224?type=Model&format=SafeTensor&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/AI styles dump AIO-noob-vpred1.0_v5.safetensors\""
-    )
-    .run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1290145?type=Model&format=SafeTensor&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/Hara ID 21.safetensors\""
-    )
-    .run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1265180?type=Model&format=SafeTensor&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/Pixel Art LoRA noob vpred 1.0 v2.safetensors\""
-    )
-)
+
+
+
 #image = (
 #    image.run_commands(
-#        "wget -c \"https://civitai.com/api/download/models/1360303?type=Model&format=SafeTensor&size=pruned&fp=fp16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"
+#        "wget -c \"https://civitai.com/api/download/models/1360303?type=Model&format=SafeTensor&size=pruned&fp=fp16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/name.safetensors\""
 #    )
 #)
-image = (
-    image.run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1187614?type=Model&format=SafeTensor&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/Miside(米塔)|NoobAI-XL eps v1.1.safetensors\"")
-    .run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1167067?type=Model&format=SafeTensor&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/Miside(米塔)|NoobAI-XL v-pred 0.75s.safetensors\"")
-    .run_commands(
-        "wget -c \"https://civitai.com/api/download/models/1173678?type=Model&format=SafeTensor&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"root/comfy/ComfyUI/models/loras/Miside(米塔)|NoobAI-XL v-pred 0.75s new.safetensors\"")
-)
+
+
+
 image = (
     image.run_commands(  # download a custom node
         "comfy node install image-resize-comfyui"
-    )
-    .run_commands(
-        "comfy node install https://github.com/regiellis/ComfyUI-EasyNoobai.git"
     )
     .run_commands(
         "comfy node install efficiency-nodes-comfyui"
@@ -90,30 +57,42 @@ image = (
     )
 )
 
-#load local loras
-image = (
-    image.add_local_dir("./LORAS/", 
-        remote_path="/root/comfy/ComfyUI/models/loras"               
-    )   
-)
-#load local controlnet
-image = (
-    image.add_local_dir("./CONTROLNET/", 
-        remote_path="/root/comfy/ComfyUI/models/controlnet"               
-    )   
-)
 
-#(re)load workflows:
-#image = (
-#    image.add_local_dir("./WORKFLOWS/", remote_path="/root/comfy/ComfyUI/user/default/workflows")
-#)
+# load local loras -> DISABLED to use Volume instead
+# image = (
+#     image.add_local_dir("./LORAS/", 
+#         remote_path="/root/comfy/ComfyUI/models/loras"               
+#     )   
+# )
+# load local controlnet -> DISABLED to use Volume instead
+# image = (
+#     image.add_local_dir("./CONTROLNET/", 
+#         remote_path="/root/comfy/ComfyUI/models/controlnet"               
+#     )   
+# )
+
+# Add extra_model_paths.yaml to let ComfyUI know about the volume mount paths
+image = image.add_local_file("extra_model_paths.yaml", remote_path="/root/comfy/ComfyUI/extra_model_paths.yaml")
+
 app = modal.App(name="nam-dev-comfyui", image=image)
+
+# Define Volumes (create if missing to avoid errors, but user should populate them)
+vol_checkpoints = modal.Volume.from_name("comfy_checkpoints", create_if_missing=True)
+vol_loras = modal.Volume.from_name("comfy_loras", create_if_missing=True)
+vol_controlnet = modal.Volume.from_name("comfy_controlnet", create_if_missing=True)
+vol_custom_nodes = modal.Volume.from_name("comfy_custom_nodes", create_if_missing=True)
 
 @app.function(
     max_containers=1,
     scaledown_window=3600,
     timeout=18000,
     gpu="A10G",
+    volumes={
+        "/root/vol_models/checkpoints": vol_checkpoints,
+        "/root/vol_models/loras": vol_loras,
+        "/root/vol_models/controlnet": vol_controlnet,
+        "/root/vol_models/custom_nodes": vol_custom_nodes, # Optional if you use volume for custom nodes
+    }
 )
 @modal.concurrent(max_inputs=10)
 @modal.web_server(8000, startup_timeout=60)

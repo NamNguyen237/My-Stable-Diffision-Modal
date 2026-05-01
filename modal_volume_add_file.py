@@ -24,9 +24,18 @@ lora_names = [
     "AI styles dump AIO-noob-vpred1.0_v5.safetensors",
     "Hara ID 21.safetensors",
     "Pixel Art LoRA noob vpred 1.0 v2.safetensors",
-    "Miside(米塔)|NoobAI-XL eps v1.1.safetensors",
-    "Miside(米塔)|NoobAI-XL v-pred 0.75s.safetensors",
-    "Miside(米塔)|NoobAI-XL v-pred 0.75s new.safetensors"
+    "Miside(米塔)-NoobAI-XL eps v1.1.safetensors",
+    "Miside(米塔) -NoobAI-XL v-pred 0.75s.safetensors",
+    "Miside(米塔)-NoobAI-XL v-pred 0.75s new.safetensors"
+]
+
+controlnet_urls = [
+    # Add ControlNet URLs here
+    "https://civitai.com/api/download/models/1077649?type=Model&format=SafeTensor"
+]
+controlnet_names = [
+    # Add corresponding filenames here
+    "noobaiXLControlnet_openposeModel.safetensors"
 ]
 
 custom_node_urls = [
@@ -42,19 +51,17 @@ custom_node_dirs = [
     "image-resize-comfyui"
 ]
 
-from modal_asset_loader import (
-    download_files_to_volume,
-    download_and_extract_nodes,
-    upload_local_to_volume,
-    comfy_checkpoints,
-    comfy_loras,
-    comfy_custom_nodes
-)
 
-# Tải từ URL
-download_files_to_volume(checkpoint_urls, checkpoint_names, comfy_checkpoints)
-download_files_to_volume(lora_urls, lora_names, comfy_loras)
-download_and_extract_nodes(custom_node_urls, custom_node_dirs, comfy_custom_nodes)
+from modal_asset_loader import run_download
+
+if __name__ == "__main__":
+    run_download(
+        checkpoint_urls=checkpoint_urls, checkpoint_names=checkpoint_names,
+        lora_urls=lora_urls, lora_names=lora_names,
+        controlnet_urls=controlnet_urls, controlnet_names=controlnet_names,
+        node_urls=custom_node_urls, node_dirs=custom_node_dirs
+    )
+
 
 # Tải từ local
 #Examples
@@ -62,3 +69,4 @@ download_and_extract_nodes(custom_node_urls, custom_node_dirs, comfy_custom_node
 #upload_local_to_volume("/home/nam/local_loras", comfy_loras)
 #upload_local_to_volume("/home/nam/local_nodes", comfy_custom_nodes, "MyLocalNode")
 upload_local_to_volume("./LORAS", comfy_loras)
+#upload_local_to_volume("./CONTROLNET", comfy_controlnet)

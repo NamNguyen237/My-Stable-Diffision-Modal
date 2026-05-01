@@ -2,3 +2,8 @@
 /notebooks/rclone
 /Datasets
 /.venv
+/.vscode
+/__pycache__
+.env
+.ipynb_checkpoints
+.cache

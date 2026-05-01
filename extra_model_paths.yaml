@@ -1,0 +1,11 @@
+comfyui:
+    base_path: /root/vol_models
+    checkpoints: checkpoints
+    loras: loras
+    vae: vae
+    controlnet: controlnet
+    upscale_models: upscale_models
+    embeddings: embeddings
+    hypernetworks: hypernetworks
+    photomaker: photomaker
+    classifiers: classifiers
