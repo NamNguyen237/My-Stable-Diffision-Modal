@@ -63,10 +63,30 @@ if __name__ == "__main__":
     )
 
 
-# Tải từ local
-#Examples
-#upload_local_to_volume("/home/nam/local_checkpoints", comfy_checkpoints)
-#upload_local_to_volume("/home/nam/local_loras", comfy_loras)
-#upload_local_to_volume("/home/nam/local_nodes", comfy_custom_nodes, "MyLocalNode")
-upload_local_to_volume("./LORAS", comfy_loras)
-#upload_local_to_volume("./CONTROLNET", comfy_controlnet)
+import modal
+import os
+
+app = modal.App("volume-uploader")
+
+def upload_local_to_volume(local_path, volume_name, remote_path=""):
+    print(f"Uploading {local_path} to volume {volume_name} at remote path /{remote_path}")
+    vol = modal.Volume.from_name(volume_name, create_if_missing=True)
+    with vol.batch_upload(force=True) as batch:
+        batch.put_directory(local_path, f"/{remote_path}")
+    print("Upload complete!")
+
+# Define volume names
+comfy_checkpoints = "comfy_checkpoints"
+comfy_loras = "comfy_loras"
+comfy_controlnet = "comfy_controlnet"
+comfy_custom_nodes = "comfy_custom_nodes"
+
+@app.local_entrypoint()
+def main():
+    # Tải từ local
+    #Examples
+    #upload_local_to_volume("/home/nam/local_checkpoints", comfy_checkpoints)
+    #upload_local_to_volume("/home/nam/local_loras", comfy_loras)
+    #upload_local_to_volume("/home/nam/local_nodes", comfy_custom_nodes, "MyLocalNode")
+    upload_local_to_volume("./LORAS", comfy_loras)
+    #upload_local_to_volume("./CONTROLNET", comfy_controlnet)
