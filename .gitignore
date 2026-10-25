@@ -7,3 +7,4 @@
 .env
 .ipynb_checkpoints
 .cache
+.tmp.*
