@@ -26,7 +26,7 @@ image = (  # build up a Modal Image to run ComfyUI, step by step
 
 #image = (
 #    image.run_commands(
-#        "wget -c \"https://civitai.com/api/download/models/1360303?type=Model&format=SafeTensor&size=pruned&fp=fp16&token=403d7e6612cfb89e27559bedd1bb2dbb\" -O \"
+#        "wget -c \"https://civitai.com/api/download/models/1360303?type=Model&format=SafeTensor&size=pruned&fp=fp16" -O \"
 #    )
 #)
 
